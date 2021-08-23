@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import CustomerListResults from 'src/components/customer/CustomerListResults';
-import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
+import ConstructionListResults from 'src/components/construction/ConstructionListResults';
+import ConstructionListToolbar from 'src/components/construction/ConstructionListToolbar';
 import customers from 'src/__mocks__/customers';
 
-const CustomerList = () => (
+const ConstructionList = () => (
   <>
     <Helmet>
-      <title>Customers | Material Kit</title>
+      <title>Obras</title>
     </Helmet>
     <Box
       sx={{
@@ -17,13 +17,13 @@ const CustomerList = () => (
       }}
     >
       <Container maxWidth={false}>
-        <CustomerListToolbar />
+        <ConstructionListToolbar />
         <Box sx={{ pt: 3 }}>
-          <CustomerListResults customers={customers} />
+          <ConstructionListResults customers={customers} />
         </Box>
       </Container>
     </Box>
   </>
 );
 
-export default CustomerList;
+export default ConstructionList;

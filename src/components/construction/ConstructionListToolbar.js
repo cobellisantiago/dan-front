@@ -9,31 +9,12 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
-const CustomerListToolbar = (props) => (
-  <Box {...props}>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end'
-      }}
-    >
-      <Button>
-        Import
-      </Button>
-      <Button sx={{ mx: 1 }}>
-        Export
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-      >
-        Add customer
-      </Button>
-    </Box>
-    <Box sx={{ mt: 3 }}>
-      <Card>
-        <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
+const ConstructionListToolbar = (props) => (
+  <Box {...props} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Box sx={{ maxWidth: '50', alignSelf: 'start' }}>
+      <Card sx={{ paddingBottom: 0, display: 'flex' }}>
+        <CardContent sx={{ width: 400 }}>
+          <Box>
             <TextField
               fullWidth
               InputProps={{
@@ -48,14 +29,28 @@ const CustomerListToolbar = (props) => (
                   </InputAdornment>
                 )
               }}
-              placeholder="Search customer"
+              placeholder="Buscar obra"
               variant="outlined"
             />
           </Box>
         </CardContent>
+        <Button
+          variant="contained"
+          sx={{ height: 40, alignSelf: 'center', marginRight: 2 }}
+        >
+          Buscar
+        </Button>
       </Card>
+    </Box>
+    <Box sx={{ alignSelf: 'center' }}>
+      <Button
+        color="primary"
+        variant="contained"
+      >
+        Agregar Obra
+      </Button>
     </Box>
   </Box>
 );
 
-export default CustomerListToolbar;
+export default ConstructionListToolbar;

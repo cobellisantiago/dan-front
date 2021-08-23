@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
@@ -6,21 +7,28 @@ import {
   Box,
   Button,
   Container,
-  Grid,
   Link,
   TextField,
-  Typography
+  Typography,
+  Radio,
+  FormControlLabel,
+  RadioGroup,
+  FormControl,
+  FormLabel
 } from '@material-ui/core';
-import FacebookIcon from 'src/icons/Facebook';
-import GoogleIcon from 'src/icons/Google';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [value, setValue] = React.useState('employee');
+
+  const handleRadioChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
     <>
       <Helmet>
-        <title>Login | Material Kit</title>
+        <title>Ingresar</title>
       </Helmet>
       <Box
         sx={{
@@ -34,12 +42,12 @@ const Login = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
+              email: '',
+              password: ''
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
+              email: Yup.string().email('Debe ingresar un email valido').max(255).required('Campo requerido'),
+              password: Yup.string().max(255).required('Campo requerido')
             })}
             onSubmit={() => {
               navigate('/app/dashboard', { replace: true });
@@ -60,71 +68,23 @@ const Login = () => {
                     color="textPrimary"
                     variant="h2"
                   >
-                    Sign in
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    gutterBottom
-                    variant="body2"
-                  >
-                    Sign in on the internal platform
+                    Iniciar sesión
                   </Typography>
                 </Box>
-                <Grid
-                  container
-                  spacing={3}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      color="primary"
-                      fullWidth
-                      startIcon={<FacebookIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Facebook
-                    </Button>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                  >
-                    <Button
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={handleSubmit}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Google
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box
-                  sx={{
-                    pb: 1,
-                    pt: 3
-                  }}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    or login with email address
-                  </Typography>
-                </Box>
+                <FormControl component="fieldset" sx={{ margin: 'auto', width: 'fit-content', display: 'block' }}>
+                  <FormLabel component="legend" sx={{ margin: 'auto' }}>¿Con qué tipo de usuario desea ingresar?</FormLabel>
+                  <RadioGroup aria-label="userType" name="userType" value={value} onChange={handleRadioChange} sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Box sx={{ margin: 'auto', width: 'fit-content' }}>
+                      <FormControlLabel value="employee" control={<Radio />} label="Empleado" />
+                      <FormControlLabel value="client" control={<Radio />} label="Cliente" sx={{ margin: 0 }} />
+                    </Box>
+                  </RadioGroup>
+                </FormControl>
                 <TextField
                   error={Boolean(touched.email && errors.email)}
                   fullWidth
                   helperText={touched.email && errors.email}
-                  label="Email Address"
+                  label="Email"
                   margin="normal"
                   name="email"
                   onBlur={handleBlur}
@@ -137,7 +97,7 @@ const Login = () => {
                   error={Boolean(touched.password && errors.password)}
                   fullWidth
                   helperText={touched.password && errors.password}
-                  label="Password"
+                  label="Contraseña"
                   margin="normal"
                   name="password"
                   onBlur={handleBlur}
@@ -155,21 +115,23 @@ const Login = () => {
                     type="submit"
                     variant="contained"
                   >
-                    Sign in now
+                    Ingresar
                   </Button>
                 </Box>
                 <Typography
                   color="textSecondary"
                   variant="body1"
+                  sx={{ textAlign: 'center' }}
                 >
-                  Don&apos;t have an account?
+                  ¿No tienes una cuenta?
                   {' '}
                   <Link
                     component={RouterLink}
                     to="/register"
-                    variant="h6"
+                    variant="h5"
+                    sx={{ textDecoration: 'none', fontWeight: 'bold' }}
                   >
-                    Sign up
+                    Registrate
                   </Link>
                 </Typography>
               </form>
