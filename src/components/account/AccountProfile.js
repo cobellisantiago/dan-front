@@ -27,8 +27,7 @@ const AccountProfile = (props) => {
     lastName: 'Smith',
     email: 'demo@devias.io',
     phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    onlineEnabled: true
   });
 
   const handleChange = (event) => {
@@ -61,9 +60,9 @@ const AccountProfile = (props) => {
             <TextField
               fullWidth
               label="CUIL"
-              name="firstName"
+              name="cuil"
               onChange={handleChange}
-              value={values.firstName}
+              value={values.cuil}
               variant="outlined"
             />
           </Grid>
@@ -75,9 +74,9 @@ const AccountProfile = (props) => {
             <TextField
               fullWidth
               label="Razon Social"
-              name="lastName"
+              name="businessName"
               onChange={handleChange}
-              value={values.lastName}
+              value={values.businessName}
               variant="outlined"
             />
           </Grid>
@@ -89,9 +88,10 @@ const AccountProfile = (props) => {
             <TextField
               fullWidth
               label="Monto bancario actual"
-              name="email"
+              name="currentBalance"
+              tyoe="number"
               onChange={handleChange}
-              value={values.email}
+              value={values.currentBalance}
               variant="outlined"
             />
           </Grid>
@@ -103,10 +103,10 @@ const AccountProfile = (props) => {
             <TextField
               fullWidth
               label="Monto maximo en descubierto"
-              name="phone"
+              name="maxCurrentAccount"
               onChange={handleChange}
               type="number"
-              value={values.phone}
+              value={values.maxCurrentAccount}
               variant="outlined"
             />
           </Grid>
@@ -123,9 +123,16 @@ const AccountProfile = (props) => {
               }}
             >
               <Checkbox
-                checked={values.policy}
-                name="policy"
-                onChange={handleChange}
+                checked={values.onlineEnabled}
+                name="onlineEnabled"
+                onChange={(e) => {
+                  handleChange({
+                    target: {
+                      name: e.target.name,
+                      value: e.target.checked,
+                    },
+                  });
+                }}
               />
               <Typography
                 variant="body1"
