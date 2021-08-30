@@ -3,7 +3,8 @@ import {
   Box,
   Container
 } from '@material-ui/core';
-import AccountProfile from 'src/components/account/AccountProfile';
+// import EmployeeProfile from '../components/account/EmployeeProfile';
+import ClientProfile from '../components/account/ClientProfile';
 
 const Account = () => (
   <>
@@ -18,7 +19,7 @@ const Account = () => (
       }}
     >
       <Container maxWidth="lg">
-        <AccountProfile />
+        <ClientProfile />
       </Container>
     </Box>
   </>

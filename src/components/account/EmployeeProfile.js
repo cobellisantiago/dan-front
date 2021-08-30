@@ -5,29 +5,25 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Checkbox,
   Divider,
   Grid,
-  TextField,
-  Typography
+  TextField
 } from '@material-ui/core';
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
+  firstName: 'Juan Ignacio',
+  lastName: 'Perez',
+  userType: 'Empleado',
+  dni: '32094895',
+  email: 'jperez@gmail.com'
 };
 
-const AccountProfile = (props) => {
+const EmployeeProfile = (props) => {
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    onlineEnabled: true
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    dni: user.dni
   });
 
   const handleChange = (event) => {
@@ -40,10 +36,10 @@ const AccountProfile = (props) => {
   return (
     <Card {...props} sx={{ padding: 3 }}>
       <CardHeader
-        subheader={user.country}
-        title={user.name}
+        title={`${user.firstName} ${user.lastName}`}
+        subheader={user.userType}
         titleTypographyProps={{ variant: 'h2' }}
-        subheaderTypographyProps={{ variant: 'h3' }}
+        subheaderTypographyProps={{ variant: 'h4' }}
         sx={{ textAlign: 'center', backgroundColor: 'secondary' }}
       />
       <Divider />
@@ -59,10 +55,11 @@ const AccountProfile = (props) => {
           >
             <TextField
               fullWidth
-              label="CUIL"
-              name="cuil"
+              disabled="true"
+              label="Nombre"
+              name="firstName"
               onChange={handleChange}
-              value={values.cuil}
+              value={values.firstName}
               variant="outlined"
             />
           </Grid>
@@ -73,10 +70,11 @@ const AccountProfile = (props) => {
           >
             <TextField
               fullWidth
-              label="Razon Social"
-              name="businessName"
+              disabled="true"
+              label="Apellido"
+              name="lastName"
               onChange={handleChange}
-              value={values.businessName}
+              value={values.lastName}
               variant="outlined"
             />
           </Grid>
@@ -87,11 +85,12 @@ const AccountProfile = (props) => {
           >
             <TextField
               fullWidth
-              label="Monto bancario actual"
-              name="currentBalance"
+              disabled="true"
+              label="DNI"
+              name="dni"
               tyoe="number"
               onChange={handleChange}
-              value={values.currentBalance}
+              value={values.dni}
               variant="outlined"
             />
           </Grid>
@@ -102,44 +101,13 @@ const AccountProfile = (props) => {
           >
             <TextField
               fullWidth
-              label="Monto maximo en descubierto"
-              name="maxCurrentAccount"
+              label="Email"
+              name="email"
+              tyoe="email"
               onChange={handleChange}
-              type="number"
-              value={values.maxCurrentAccount}
+              value={values.email}
               variant="outlined"
             />
-          </Grid>
-          <Grid
-            item
-            md={6}
-            xs={12}
-          >
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                ml: -1
-              }}
-            >
-              <Checkbox
-                checked={values.onlineEnabled}
-                name="onlineEnabled"
-                onChange={(e) => {
-                  handleChange({
-                    target: {
-                      name: e.target.name,
-                      value: e.target.checked,
-                    },
-                  });
-                }}
-              />
-              <Typography
-                variant="body1"
-              >
-                Habilitado en canal online
-              </Typography>
-            </Box>
           </Grid>
         </Grid>
       </CardContent>
@@ -162,4 +130,4 @@ const AccountProfile = (props) => {
   );
 };
 
-export default AccountProfile;
+export default EmployeeProfile;
