@@ -9,6 +9,7 @@ import NotFound from 'src/pages/NotFound';
 import ProductList from 'src/pages/ProductList';
 import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
+import AddConstruction from 'src/pages/AddConstruction';
 
 const routes = [
   {
@@ -17,6 +18,7 @@ const routes = [
     children: [
       { path: 'account', element: <Account /> },
       { path: 'construction', element: <ConstructionList /> },
+      { path: '/construction/add', element: <AddConstruction /> },
       { path: 'material', element: <Dashboard /> },
       { path: 'payment', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
