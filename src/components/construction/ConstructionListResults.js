@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -15,12 +16,18 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import getInitials from 'src/utils/getInitials';
+import { Trash as DeleteIcon } from 'react-feather';
+import { useNavigate } from 'react-router-dom';
 
-const CustomerListResults = ({ customers, ...rest }) => {
+const ConstructionListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/app/construction/edit', { replace: true });
+  };
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -67,7 +74,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
-            <TableHead>
+            <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
@@ -81,19 +88,22 @@ const CustomerListResults = ({ customers, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  ID
                 </TableCell>
                 <TableCell>
-                  Email
+                  TIPO
                 </TableCell>
                 <TableCell>
-                  Location
+                  DIRECCION
                 </TableCell>
                 <TableCell>
-                  Phone
+                  LATITUD
                 </TableCell>
                 <TableCell>
-                  Registration date
+                  LONGITUD
+                </TableCell>
+                <TableCell>
+                  ACCION
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -118,12 +128,6 @@ const CustomerListResults = ({ customers, ...rest }) => {
                         display: 'flex'
                       }}
                     >
-                      <Avatar
-                        src={customer.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
@@ -136,13 +140,30 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     {customer.email}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    {customer.address.country}
                   </TableCell>
                   <TableCell>
                     {customer.phone}
                   </TableCell>
                   <TableCell>
                     {moment(customer.createdAt).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={handleClick}
+                    >
+                      Editar
+                    </Button>
+                    <Button>
+                      <SvgIcon
+                        fontSize="small"
+                        color="action"
+                      >
+                        <DeleteIcon />
+                      </SvgIcon>
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -151,6 +172,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
         </Box>
       </PerfectScrollbar>
       <TablePagination
+        labelRowsPerPage="Filas por Pagina"
         component="div"
         count={customers.length}
         onPageChange={handlePageChange}
@@ -163,8 +185,8 @@ const CustomerListResults = ({ customers, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
+ConstructionListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };
 
-export default CustomerListResults;
+export default ConstructionListResults;
