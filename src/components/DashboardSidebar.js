@@ -36,7 +36,7 @@ const items = [
     title: 'Obras'
   },
   {
-    href: '/app/products',
+    href: '/app/material',
     icon: MaterialIcon,
     title: 'Materiales'
   },
