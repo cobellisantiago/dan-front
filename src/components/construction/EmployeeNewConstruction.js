@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
-const NewConstruction = () => {
+const EmployeeNewConstruction = () => {
   const navigate = useNavigate();
   const clients = [
     {
@@ -47,6 +47,10 @@ const NewConstruction = () => {
     }
   ];
 
+  const handleCancelClick = () => {
+    navigate('/app/construction', { replace: true });
+  };
+
   return (
     <Card sx={{ padding: 3, margin: 3 }}>
       <CardHeader
@@ -61,7 +65,8 @@ const NewConstruction = () => {
             address: '',
             description: '',
             latitude: '',
-            longitude: ''
+            longitude: '',
+            area: ''
           }}
           validationSchema={Yup.object().shape({
             client: Yup.string().required('Campo requerido'),
@@ -70,6 +75,7 @@ const NewConstruction = () => {
             description: Yup.string().required('Campo requerido'),
             latitude: Yup.number().required('Campo requerido'),
             longitude: Yup.number().required('Campo requerido'),
+            area: Yup.number().required('Campo requerido'),
           })}
           onSubmit={() => {
             navigate('/app/construction', { replace: true });
@@ -209,6 +215,25 @@ const NewConstruction = () => {
                       type="number"
                     />
                   </Grid>
+                  <Grid
+                    item
+                    md={6}
+                    xs={12}
+                  >
+                    <TextField
+                      fullWidth
+                      error={Boolean(touched.area && errors.area)}
+                      helperText={touched.area && errors.area}
+                      required
+                      label="Area"
+                      name="area"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.area}
+                      variant="outlined"
+                      type="number"
+                    />
+                  </Grid>
                 </Grid>
                 <Box
                   sx={{
@@ -217,6 +242,15 @@ const NewConstruction = () => {
                     p: 2
                   }}
                 >
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    size="medium"
+                    sx={{ marginRight: 2 }}
+                    onClick={handleCancelClick}
+                  >
+                    Cancelar
+                  </Button>
                   <Button
                     color="primary"
                     variant="contained"
@@ -235,4 +269,4 @@ const NewConstruction = () => {
   );
 };
 
-export default NewConstruction;
+export default EmployeeNewConstruction;

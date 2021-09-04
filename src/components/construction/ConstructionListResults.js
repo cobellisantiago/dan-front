@@ -6,7 +6,8 @@ import {
   Box,
   Button,
   Card,
-  Checkbox, SvgIcon,
+  Checkbox,
+  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -16,11 +17,17 @@ import {
   Typography
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
+import { useNavigate } from 'react-router-dom';
 
 const ConstructionListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/app/construction/edit', { replace: true });
+  };
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -145,6 +152,7 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                     <Button
                       color="secondary"
                       variant="contained"
+                      onClick={handleClick}
                     >
                       Editar
                     </Button>

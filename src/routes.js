@@ -10,6 +10,7 @@ import ProductList from 'src/pages/ProductList';
 import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
 import AddConstruction from 'src/pages/AddConstruction';
+import EditConstruction from 'src/pages/EditConstruction';
 
 const routes = [
   {
@@ -19,6 +20,7 @@ const routes = [
       { path: 'account', element: <Account /> },
       { path: 'construction', element: <ConstructionList /> },
       { path: '/construction/add', element: <AddConstruction /> },
+      { path: '/construction/edit', element: <EditConstruction /> },
       { path: 'material', element: <Dashboard /> },
       { path: 'payment', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
