@@ -41,7 +41,7 @@ const items = [
     title: 'Materiales'
   },
   {
-    href: '/app/settings',
+    href: '/app/order',
     icon: OrderIcon,
     title: 'Pedidos'
   },

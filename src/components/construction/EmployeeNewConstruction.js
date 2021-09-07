@@ -107,7 +107,6 @@ const EmployeeNewConstruction = () => {
                       labelId="demo-simple-select-outlined-label"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      label="Cliente asociado"
                       fullWidth
                       name="client"
                       required
@@ -130,7 +129,6 @@ const EmployeeNewConstruction = () => {
                       labelId="demo-simple-select-outlined-label"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      label="Tipo de construccion"
                       fullWidth
                       name="constructionType"
                       required

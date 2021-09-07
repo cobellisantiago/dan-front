@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 import { Box } from '@material-ui/core';
-import EmployeeNewMaterial from '../components/material/EmployeeNewMaterial';
+import EmployeeNewMaterial from '../../components/material/EmployeeNewMaterial';
 
 const AddMaterial = () => (
   <>

@@ -91,7 +91,6 @@ const ClientNewConstruction = () => {
                     labelId="demo-simple-select-outlined-label"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    label="Tipo de construccion"
                     fullWidth
                     name="constructionType"
                     required

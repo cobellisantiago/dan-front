@@ -7,12 +7,15 @@ import NotFound from 'src/pages/NotFound';
 import ProductList from 'src/pages/ProductList';
 import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
-import ConstructionList from 'src/pages/ConstructionList';
-import AddConstruction from 'src/pages/AddConstruction';
-import EditConstruction from 'src/pages/EditConstruction';
-import MaterialList from 'src/pages/MaterialList';
-import AddMaterial from 'src/pages/AddMaterial';
-import EditMaterial from 'src/pages/EditMaterial';
+import ConstructionList from 'src/pages/construction/ConstructionList';
+import AddConstruction from 'src/pages/construction/AddConstruction';
+import EditConstruction from 'src/pages/construction/EditConstruction';
+import MaterialList from 'src/pages/material/MaterialList';
+import AddMaterial from 'src/pages/material/AddMaterial';
+import EditMaterial from 'src/pages/material/EditMaterial';
+import OrderList from 'src/pages/order/OrderList';
+import AddOrder from 'src/pages/order/AddOrder';
+import EditOrder from 'src/pages/order/EditOrder';
 
 const routes = [
   {
@@ -26,6 +29,9 @@ const routes = [
       { path: 'material', element: <MaterialList /> },
       { path: '/material/add', element: <AddMaterial /> },
       { path: '/material/edit', element: <EditMaterial /> },
+      { path: 'order', element: <OrderList /> },
+      { path: '/order/add', element: <AddOrder /> },
+      { path: '/order/edit', element: <EditOrder /> },
       { path: 'payment', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> }
