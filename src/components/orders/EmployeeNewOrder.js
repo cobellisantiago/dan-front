@@ -143,7 +143,6 @@ const EmployeeNewOrder = () => {
                       onChange={handleChange}
                       fullWidth
                       name="client"
-                      required
                       value={values.client}
                     >
                       {
@@ -165,7 +164,6 @@ const EmployeeNewOrder = () => {
                       onChange={handleChange}
                       fullWidth
                       name="construction"
-                      required
                       value={values.construction}
                     >
                       {
@@ -189,7 +187,6 @@ const EmployeeNewOrder = () => {
                     <InputLabel id="demo-simple-select-outlined-label">Fecha de envio</InputLabel>
                     <TextField
                       fullWidth
-                      required
                       name="shippingDate"
                       type="date"
                       format="dd/MM/yyyy"

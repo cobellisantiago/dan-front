@@ -3,7 +3,6 @@ import EmployeeRegister from './EmployeeRegister';
 import ClientRegister from './ClientRegister';
 
 const RegisterForm = ({ checkBoxValue }) => {
-  console.log(checkBoxValue);
   if (checkBoxValue === 'employee') {
     return <EmployeeRegister />;
   }

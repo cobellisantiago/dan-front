@@ -1,11 +1,11 @@
 import { Helmet } from 'react-helmet';
 import { Box } from '@material-ui/core';
-import EmployeeNewMaterial from '../../components/material/EmployeeNewMaterial';
+import ClientNewPayment from '../../components/payment/ClientNewPayment';
 
-const AddMaterial = () => (
+const AddPayment = () => (
   <>
     <Helmet>
-      <title>Materiales</title>
+      <title>Pagos</title>
     </Helmet>
     <Box
       sx={{
@@ -14,9 +14,9 @@ const AddMaterial = () => (
         py: 3
       }}
     >
-      <EmployeeNewMaterial />
+      <ClientNewPayment />
     </Box>
   </>
 );
 
-export default AddMaterial;
+export default AddPayment;

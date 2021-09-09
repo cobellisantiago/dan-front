@@ -4,10 +4,8 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
-  Button,
   Card,
   Checkbox,
-  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -16,18 +14,11 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import { Trash as DeleteIcon } from 'react-feather';
-import { useNavigate } from 'react-router-dom';
 
-const OrderListResults = ({ customers, ...rest }) => {
+const PaymentListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/app/material/edit', { replace: true });
-  };
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -91,16 +82,13 @@ const OrderListResults = ({ customers, ...rest }) => {
                   ID
                 </TableCell>
                 <TableCell>
-                  CONSTRUCCION
+                  CLIENTE
                 </TableCell>
                 <TableCell>
-                  FECHA DE ENVIO
+                  FECHA
                 </TableCell>
                 <TableCell>
-                  ESTADO
-                </TableCell>
-                <TableCell>
-                  ACCION
+                  METODO
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -142,23 +130,6 @@ const OrderListResults = ({ customers, ...rest }) => {
                   <TableCell>
                     {customer.address.country}
                   </TableCell>
-                  <TableCell>
-                    <Button
-                      color="secondary"
-                      variant="contained"
-                      onClick={handleClick}
-                    >
-                      Editar
-                    </Button>
-                    <Button>
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
-                        <DeleteIcon />
-                      </SvgIcon>
-                    </Button>
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -179,8 +150,8 @@ const OrderListResults = ({ customers, ...rest }) => {
   );
 };
 
-OrderListResults.propTypes = {
+PaymentListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };
 
-export default OrderListResults;
+export default PaymentListResults;

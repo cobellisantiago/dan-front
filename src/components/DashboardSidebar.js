@@ -46,7 +46,7 @@ const items = [
     title: 'Pedidos'
   },
   {
-    href: '/app/settings',
+    href: '/app/payment',
     icon: PaymentIcon,
     title: 'Pagos'
   },

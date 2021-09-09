@@ -31,7 +31,7 @@ const EditMaterial = () => {
   return (
     <>
       <Helmet>
-        <title>Material</title>
+        <title>Materiales</title>
       </Helmet>
       <Box
         sx={{

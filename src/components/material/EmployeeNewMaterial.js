@@ -70,7 +70,6 @@ const EmployeeNewMaterial = () => {
                       helperText={touched.name && errors.name}
                       label="Nombre"
                       name="name"
-                      required
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.name}
@@ -88,7 +87,6 @@ const EmployeeNewMaterial = () => {
                       helperText={touched.description && errors.description}
                       label="Descripcion"
                       name="description"
-                      required
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.description}
@@ -106,7 +104,6 @@ const EmployeeNewMaterial = () => {
                       helperText={touched.price && errors.price}
                       label="Precio"
                       name="price"
-                      required
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.price}
@@ -126,7 +123,6 @@ const EmployeeNewMaterial = () => {
                       label="Stock actual"
                       name="actualStock"
                       onBlur={handleBlur}
-                      required
                       onChange={handleChange}
                       value={values.actualStock}
                       variant="outlined"
@@ -145,7 +141,6 @@ const EmployeeNewMaterial = () => {
                       label="Stock minimo"
                       name="minimumStock"
                       onBlur={handleBlur}
-                      required
                       onChange={handleChange}
                       value={values.minimumStock}
                       variant="outlined"

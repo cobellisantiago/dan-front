@@ -91,7 +91,7 @@ const MaterialListResults = ({ customers, ...rest }) => {
                   ID
                 </TableCell>
                 <TableCell>
-                  NAME
+                  NOMBRE
                 </TableCell>
                 <TableCell>
                   DESCRIPCION

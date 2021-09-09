@@ -4,9 +4,7 @@ import MainLayout from 'src/components/MainLayout';
 import Account from 'src/pages/Account';
 import Login from 'src/pages/Login';
 import NotFound from 'src/pages/NotFound';
-import ProductList from 'src/pages/ProductList';
 import Register from 'src/pages/Register';
-import Settings from 'src/pages/Settings';
 import ConstructionList from 'src/pages/construction/ConstructionList';
 import AddConstruction from 'src/pages/construction/AddConstruction';
 import EditConstruction from 'src/pages/construction/EditConstruction';
@@ -16,6 +14,8 @@ import EditMaterial from 'src/pages/material/EditMaterial';
 import OrderList from 'src/pages/order/OrderList';
 import AddOrder from 'src/pages/order/AddOrder';
 import EditOrder from 'src/pages/order/EditOrder';
+import PaymentList from './pages/payment/PaymentList';
+import AddPayment from './pages/payment/AddPayment';
 
 const routes = [
   {
@@ -32,8 +32,8 @@ const routes = [
       { path: 'order', element: <OrderList /> },
       { path: '/order/add', element: <AddOrder /> },
       { path: '/order/edit', element: <EditOrder /> },
-      { path: 'payment', element: <ProductList /> },
-      { path: 'settings', element: <Settings /> },
+      { path: 'payment', element: <PaymentList /> },
+      { path: 'payment/add', element: <AddPayment /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
