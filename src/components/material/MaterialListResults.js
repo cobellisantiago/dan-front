@@ -15,12 +15,19 @@ import {
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const MaterialListResults = ({ customers, ...rest }) => {
   const navigate = useNavigate();
+  const [materials, setMaterials] = useState(customers);
 
   const handleClick = () => {
     navigate('/app/material/edit', { replace: true });
+  };
+
+  const handleDeleteClick = (material) => {
+    const filtered = materials.filter((i) => i.id !== material.id);
+    setMaterials(filtered);
   };
 
   return (
@@ -54,10 +61,10 @@ const MaterialListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.map((customer) => (
+              {materials.map((m) => (
                 <TableRow
                   hover
-                  key={customer.id}
+                  key={m.id}
                 >
                   <TableCell>
                     <Box
@@ -70,24 +77,24 @@ const MaterialListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {m.name}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {m.email}
                   </TableCell>
                   <TableCell>
-                    {customer.address.country}
+                    {m.address.country}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {m.phone}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {m.phone}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {moment(m.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -97,7 +104,9 @@ const MaterialListResults = ({ customers, ...rest }) => {
                     >
                       Editar
                     </Button>
-                    <Button>
+                    <Button
+                      onClick={() => handleDeleteClick(m)}
+                    >
                       <SvgIcon
                         fontSize="small"
                         color="action"

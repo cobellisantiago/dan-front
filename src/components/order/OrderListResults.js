@@ -15,12 +15,19 @@ import {
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const OrderListResults = ({ customers, ...rest }) => {
   const navigate = useNavigate();
+  const [orders, setOrders] = useState(customers);
 
   const handleClick = () => {
     navigate('/app/material/edit', { replace: true });
+  };
+
+  const handleDeleteClick = (order) => {
+    const filtered = orders.filter((i) => i.id !== order.id);
+    setOrders(filtered);
   };
 
   return (
@@ -48,10 +55,10 @@ const OrderListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.map((customer) => (
+              {orders.map((order) => (
                 <TableRow
                   hover
-                  key={customer.id}
+                  key={order.id}
                 >
                   <TableCell>
                     <Box
@@ -64,18 +71,18 @@ const OrderListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {order.name}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {order.email}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {moment(order.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {customer.address.country}
+                    {order.address.country}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -85,7 +92,9 @@ const OrderListResults = ({ customers, ...rest }) => {
                     >
                       Editar
                     </Button>
-                    <Button>
+                    <Button
+                      onClick={() => handleDeleteClick(order)}
+                    >
                       <SvgIcon
                         fontSize="small"
                         color="action"

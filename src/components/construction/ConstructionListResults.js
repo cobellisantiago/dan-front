@@ -15,12 +15,19 @@ import {
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const ConstructionListResults = ({ customers, ...rest }) => {
   const navigate = useNavigate();
+  const [constructions, setConstructions] = useState(customers);
 
   const handleClick = () => {
     navigate('/app/construction/edit', { replace: true });
+  };
+
+  const handleDeleteClick = (construction) => {
+    const filtered = constructions.filter((i) => i.id !== construction.id);
+    setConstructions(filtered);
   };
 
   return (
@@ -51,10 +58,10 @@ const ConstructionListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.map((customer) => (
+              {constructions.map((construction) => (
                 <TableRow
                   hover
-                  key={customer.id}
+                  key={construction.id}
                 >
                   <TableCell>
                     <Box
@@ -67,21 +74,21 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {construction.name}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {construction.email}
                   </TableCell>
                   <TableCell>
-                    {customer.address.country}
+                    {construction.address.country}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {construction.phone}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {moment(construction.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -91,7 +98,9 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                     >
                       Editar
                     </Button>
-                    <Button>
+                    <Button
+                      onClick={() => handleDeleteClick(construction)}
+                    >
                       <SvgIcon
                         fontSize="small"
                         color="action"
