@@ -12,7 +12,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OrderDetailsTable from '../../components/orders/OrderDetailsTable';
+import OrderDetailsTable from '../../components/order/OrderDetailsTable';
 
 const constructions = [
   {

@@ -16,6 +16,9 @@ import AddOrder from 'src/pages/order/AddOrder';
 import EditOrder from 'src/pages/order/EditOrder';
 import PaymentList from './pages/payment/PaymentList';
 import AddPayment from './pages/payment/AddPayment';
+import EditShipment from './pages/shipment/EditShipment';
+import AddShipment from './pages/shipment/AddShipment';
+import ShipmentList from './pages/shipment/ShipmentList';
 
 const routes = [
   {
@@ -34,6 +37,9 @@ const routes = [
       { path: '/order/edit', element: <EditOrder /> },
       { path: 'payment', element: <PaymentList /> },
       { path: 'payment/add', element: <AddPayment /> },
+      { path: 'shipment', element: <ShipmentList /> },
+      { path: '/shipment/add', element: <AddShipment /> },
+      { path: '/shipment/edit', element: <EditShipment /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
@@ -44,7 +50,7 @@ const routes = [
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
-      { path: '/', element: <Navigate to="/app/account" /> },
+      { path: '/', element: <Navigate to="/login" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   }

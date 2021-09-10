@@ -16,11 +16,11 @@ import {
 import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 
-const MaterialListResults = ({ customers, ...rest }) => {
+const ShipmentListResults = ({ customers, ...rest }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/app/material/edit', { replace: true });
+    navigate('/app/shipment/edit', { replace: true });
   };
 
   return (
@@ -34,19 +34,13 @@ const MaterialListResults = ({ customers, ...rest }) => {
                   ID
                 </TableCell>
                 <TableCell>
-                  NOMBRE
+                  DIRECCION DESTINO
                 </TableCell>
                 <TableCell>
-                  DESCRIPCION
+                  FECHA DE ENVIO
                 </TableCell>
                 <TableCell>
-                  PRECIO
-                </TableCell>
-                <TableCell>
-                  STOCK ACTUAL
-                </TableCell>
-                <TableCell>
-                  STOCK MINIMO
+                  COSTO
                 </TableCell>
                 <TableCell>
                   ACCION
@@ -78,16 +72,10 @@ const MaterialListResults = ({ customers, ...rest }) => {
                     {customer.email}
                   </TableCell>
                   <TableCell>
-                    {customer.address.country}
-                  </TableCell>
-                  <TableCell>
-                    {customer.phone}
-                  </TableCell>
-                  <TableCell>
-                    {customer.phone}
-                  </TableCell>
-                  <TableCell>
                     {moment(customer.createdAt).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    {customer.address.country}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -116,8 +104,8 @@ const MaterialListResults = ({ customers, ...rest }) => {
   );
 };
 
-MaterialListResults.propTypes = {
+ShipmentListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };
 
-export default MaterialListResults;
+export default ShipmentListResults;

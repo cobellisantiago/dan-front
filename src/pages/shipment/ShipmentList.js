@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import customers from 'src/__mocks__/customers';
-import OrderListToolbar from '../../components/order/OrderListToolbar';
-import OrderListResults from '../../components/order/OrderListResults';
+import ShipmentListToolbar from '../../components/shipment/ShipmentListToolbar';
+import ShipmentListResults from '../../components/shipment/ShipmentListResults';
 
-const OrderList = () => (
+const ShipmentList = () => (
   <>
     <Helmet>
-      <title>Pedidos</title>
+      <title>Envios</title>
     </Helmet>
     <Box
       sx={{
@@ -17,13 +17,13 @@ const OrderList = () => (
       }}
     >
       <Container maxWidth={false}>
-        <OrderListToolbar />
+        <ShipmentListToolbar />
         <Box sx={{ pt: 3 }}>
-          <OrderListResults customers={customers} />
+          <ShipmentListResults customers={customers} />
         </Box>
       </Container>
     </Box>
   </>
 );
 
-export default OrderList;
+export default ShipmentList;

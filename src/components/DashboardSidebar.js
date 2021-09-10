@@ -51,7 +51,7 @@ const items = [
     title: 'Pagos'
   },
   {
-    href: '/login',
+    href: '/app/shipment',
     icon: ShipmentIcon,
     title: 'Envios'
   }
