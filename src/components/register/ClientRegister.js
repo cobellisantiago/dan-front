@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -7,9 +6,7 @@ import {
   TextField, Typography
 } from '@material-ui/core';
 
-const ClientRegister = () => {
-  const navigate = useNavigate();
-
+const ClientRegister = ({ client, setClient, enabledButton }) => {
   // const samePassword = () => {
   //   const password = document.getElementById('passwordField');
   //   const passwordCheck = document.getElementById('passwordCheckField');
@@ -45,8 +42,22 @@ const ClientRegister = () => {
           maxCurrentAccount: Yup.string().max(255).required('Campo requerido')
         })
       }
-      onSubmit={() => {
-        navigate('/app/account', { replace: true });
+      onSubmit={(values) => {
+        setClient({
+          bussinessName: values.businessName,
+          cuit: values.cuil,
+          mail: values.email,
+          maxCurrentAccount: values.maxCurrentAccount,
+          onlineEnabled: values.onlineEnabled,
+          user: {
+            user: values.user,
+            password: values.password,
+            userType: {
+             id: 0,
+             type: 'cliente'
+           }
+         }
+        });
       }}
     >
       {({
@@ -194,7 +205,7 @@ const ClientRegister = () => {
               <Button
                 sx={{ maxWidth: 500, display: 'block', margin: 'auto' }}
                 color="primary"
-                disabled={isSubmitting}
+                disabled={isSubmitting && !enabledButton}
                 fullWidth
                 size="large"
                 type="submit"

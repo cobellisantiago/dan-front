@@ -55,6 +55,7 @@ const ConstructionListToolbar = (props) => {
         <Button
           color="primary"
           variant="contained"
+          /* eslint-disable-next-line react/jsx-no-bind */
           onClick={handleClick}
         >
           Agregar obra

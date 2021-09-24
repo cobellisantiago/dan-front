@@ -3,7 +3,7 @@ import DashboardLayout from 'src/components/DashboardLayout';
 import MainLayout from 'src/components/MainLayout';
 import Account from 'src/pages/Account';
 import Login from 'src/pages/Login';
-import NotFound from 'src/pages/NotFound';
+import NotFound from 'src/navigation/NotFound';
 import Register from 'src/pages/Register';
 import ConstructionList from 'src/pages/construction/ConstructionList';
 import AddConstruction from 'src/pages/construction/AddConstruction';
