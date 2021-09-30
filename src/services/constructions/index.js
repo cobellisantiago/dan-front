@@ -22,14 +22,12 @@ import { getRequest, Servers } from '../common/api';
 // }
 
 const Endpoints = {
-  baseUrl: 'http://localhost:8080/',
   constructions: '/constructions'
 };
 
 // eslint-disable-next-line import/prefer-default-export
 export async function getConstructions() {
   try {
-    console.log('Fetching constructions');
     return await getRequest(Servers.USERS_URL, Endpoints.constructions);
   } catch (error) {
     // Log errors

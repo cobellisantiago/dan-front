@@ -1,33 +1,76 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
   Button,
   Card,
+  Checkbox,
   SvgIcon,
   Table,
   TableBody,
   TableCell,
   TableHead,
+  TablePagination,
   TableRow,
   Typography
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
-const ConstructionListResults = ({ customers, ...rest }) => {
+const ConstructionListResults = ({ constructions, ...rest }) => {
+  const [selectedConstructionIds, setSelectedConstructionIds] = useState([]);
+  const [constructionsList, setConstructionsList] = useState(constructions || []);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
   const navigate = useNavigate();
-  const [constructions, setConstructions] = useState(customers);
 
   const handleClick = () => {
     navigate('/app/construction/edit', { replace: true });
   };
 
-  const handleDeleteClick = (construction) => {
-    const filtered = constructions.filter((i) => i.id !== construction.id);
-    setConstructions(filtered);
+  useEffect(() => {
+    setConstructionsList(constructions);
+  }, [constructions]);
+
+  const handleSelectAll = (event) => {
+    let newSelectedConstructionIds;
+
+    if (event.target.checked) {
+      newSelectedConstructionIds = constructionsList.map((construction) => construction.id);
+    } else {
+      newSelectedConstructionIds = [];
+    }
+
+    setSelectedConstructionIds(newSelectedConstructionIds);
+  };
+
+  const handleSelectOne = (event, id) => {
+    const selectedIndex = selectedConstructionIds.indexOf(id);
+    let newSelectedCustomerIds = [];
+
+    if (selectedIndex === -1) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedConstructionIds, id);
+    } else if (selectedIndex === 0) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedConstructionIds.slice(1));
+    } else if (selectedIndex === selectedConstructionIds.length - 1) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedConstructionIds.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedConstructionIds.slice(0, selectedIndex),
+        selectedConstructionIds.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelectedConstructionIds(newSelectedCustomerIds);
+  };
+
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
   };
 
   return (
@@ -37,6 +80,17 @@ const ConstructionListResults = ({ customers, ...rest }) => {
           <Table>
             <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
               <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={selectedConstructionIds.length === constructionsList.length}
+                    color="primary"
+                    indeterminate={
+                      selectedConstructionIds.length > 0
+                      && selectedConstructionIds.length < constructionsList.length
+                    }
+                    onChange={handleSelectAll}
+                  />
+                </TableCell>
                 <TableCell>
                   ID
                 </TableCell>
@@ -58,11 +112,19 @@ const ConstructionListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {constructions.map((construction) => (
+              {constructionsList.slice(0, limit).map((construction) => (
                 <TableRow
                   hover
                   key={construction.id}
+                  selected={selectedConstructionIds.indexOf(construction.id) !== -1}
                 >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={selectedConstructionIds.indexOf(construction.id) !== -1}
+                      onChange={(event) => handleSelectOne(event, construction.id)}
+                      value="true"
+                    />
+                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{
@@ -74,21 +136,21 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {construction.name}
+                        {construction.id}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {construction.email}
+                    {construction.type.description}
                   </TableCell>
                   <TableCell>
-                    {construction.address.country}
+                    {construction.address}
                   </TableCell>
                   <TableCell>
-                    {construction.phone}
+                    {construction.latitude}
                   </TableCell>
                   <TableCell>
-                    {moment(construction.createdAt).format('DD/MM/YYYY')}
+                    {construction.longitude}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -98,9 +160,7 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                     >
                       Editar
                     </Button>
-                    <Button
-                      onClick={() => handleDeleteClick(construction)}
-                    >
+                    <Button>
                       <SvgIcon
                         fontSize="small"
                         color="action"
@@ -115,12 +175,22 @@ const ConstructionListResults = ({ customers, ...rest }) => {
           </Table>
         </Box>
       </PerfectScrollbar>
+      <TablePagination
+        labelRowsPerPage="Filas por Pagina"
+        component="div"
+        count={constructionsList.length}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleLimitChange}
+        page={page}
+        rowsPerPage={limit}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
     </Card>
   );
 };
 
 ConstructionListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  constructions: PropTypes.array.isRequired
 };
 
 export default ConstructionListResults;

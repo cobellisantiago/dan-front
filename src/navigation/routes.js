@@ -14,11 +14,11 @@ import EditMaterial from 'src/pages/material/EditMaterial';
 import OrderList from 'src/pages/order/OrderList';
 import AddOrder from 'src/pages/order/AddOrder';
 import EditOrder from 'src/pages/order/EditOrder';
-import PaymentList from './pages/payment/PaymentList';
-import AddPayment from './pages/payment/AddPayment';
-import EditShipment from './pages/shipment/EditShipment';
-import AddShipment from './pages/shipment/AddShipment';
-import ShipmentList from './pages/shipment/ShipmentList';
+import PaymentList from 'src/pages/payment/PaymentList';
+import AddPayment from 'src/pages/payment/AddPayment';
+import EditShipment from 'src/pages/shipment/EditShipment';
+import AddShipment from 'src/pages/shipment/AddShipment';
+import ShipmentList from 'src/pages/shipment/ShipmentList';
 
 const routes = [
   {
@@ -26,20 +26,45 @@ const routes = [
     element: <DashboardLayout />,
     children: [
       { path: 'account', element: <Account /> },
-      { path: 'construction', element: <ConstructionList /> },
-      { path: '/construction/add', element: <AddConstruction /> },
-      { path: '/construction/edit', element: <EditConstruction /> },
-      { path: 'material', element: <MaterialList /> },
-      { path: '/material/add', element: <AddMaterial /> },
-      { path: '/material/edit', element: <EditMaterial /> },
-      { path: 'order', element: <OrderList /> },
-      { path: '/order/add', element: <AddOrder /> },
-      { path: '/order/edit', element: <EditOrder /> },
-      { path: 'payment', element: <PaymentList /> },
-      { path: 'payment/add', element: <AddPayment /> },
-      { path: 'shipment', element: <ShipmentList /> },
-      { path: '/shipment/add', element: <AddShipment /> },
-      { path: '/shipment/edit', element: <EditShipment /> },
+      {
+        path: 'construction',
+        element: <ConstructionList />,
+        children: [
+          { path: 'add', element: <AddConstruction /> },
+          { path: 'edit', element: <EditConstruction /> }
+        ]
+      },
+      {
+        path: 'material',
+        element: <MaterialList />,
+        children: [
+          { path: 'add', element: <AddMaterial /> },
+          { path: 'edit', element: <EditMaterial /> },
+        ]
+      },
+      {
+        path: 'order',
+        element: <OrderList />,
+        children: [
+          { path: 'add', element: <AddOrder /> },
+          { path: 'edit', element: <EditOrder /> },
+        ]
+      },
+      {
+        path: 'payment',
+        element: <PaymentList />,
+        children: [
+          { path: 'add', element: <AddPayment /> },
+        ]
+      },
+      {
+        path: 'shipment',
+        element: <ShipmentList />,
+        children: [
+          { path: 'add', element: <AddShipment /> },
+          { path: 'edit', element: <EditShipment /> },
+        ]
+      },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
