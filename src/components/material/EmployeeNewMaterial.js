@@ -4,81 +4,45 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Grid, InputLabel, MenuItem, Select, TextField
+  Grid,
+  TextField
 } from '@material-ui/core';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
-const EmployeeNewConstruction = () => {
+const EmployeeNewMaterial = () => {
   const navigate = useNavigate();
-  const clients = [
-    {
-      id: 1,
-      name: 'Ruben'
-    },
-    {
-      id: 2,
-      name: 'Carlos'
-    },
-    {
-      id: 3,
-      name: 'Oscar'
-    }
-  ];
-
-  const constructionTypes = [
-    {
-      id: 1,
-      description: 'Reforma'
-    },
-    {
-      id: 2,
-      description: 'Casa'
-    },
-    {
-      id: 3,
-      description: 'Edificio'
-    },
-    {
-      id: 4,
-      description: 'Vial'
-    }
-  ];
 
   const handleCancelClick = () => {
-    navigate('/app/construction', { replace: true });
+    navigate('/app/material', { replace: true });
   };
 
   return (
     <Card sx={{ padding: 3, margin: 3 }}>
       <CardHeader
-        title="Agregar Construccion"
+        title="Agregar Material"
         titleTypographyProps={{ variant: 'h3' }}
       />
       <CardContent>
         <Formik
           initialValues={{
-            client: '',
-            constructionType: '',
-            address: '',
+            name: '',
             description: '',
-            latitude: '',
-            longitude: '',
-            area: ''
+            price: '',
+            actualStock: '',
+            minimumStock: ''
           }}
           validationSchema={Yup.object().shape({
-            client: Yup.string().required('Campo requerido'),
-            constructionType: Yup.string().required('Campo requerido'),
-            address: Yup.string().required('Campo requerido'),
+            name: Yup.string().required('Campo requerido'),
             description: Yup.string().required('Campo requerido'),
-            latitude: Yup.number().required('Campo requerido'),
-            longitude: Yup.number().required('Campo requerido'),
-            area: Yup.number().required('Campo requerido'),
+            price: Yup.number().required('Campo requerido'),
+            actualStock: Yup.number().required('Campo requerido'),
+            minimumStock: Yup.number().required('Campo requerido'),
           })}
           onSubmit={() => {
-            navigate('/app/construction', { replace: true });
+            navigate('/app/material', { replace: true });
           }}
         >
           {({
@@ -100,57 +64,15 @@ const EmployeeNewConstruction = () => {
                     md={6}
                     xs={12}
                   >
-                    <InputLabel id="demo-simple-select-outlined-label">Cliente asociado</InputLabel>
-                    <Select
-                      error={Boolean(touched.client && errors.client)}
-                      helperText={touched.client && errors.client}
-                      labelId="demo-simple-select-outlined-label"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      fullWidth
-                      name="client"
-                      value={values.client}
-                    >
-                      {
-                        clients.map((c) => <MenuItem value={c.id}>{c.name}</MenuItem>)
-                      }
-                    </Select>
-                  </Grid>
-                  <Grid
-                    item
-                    md={6}
-                    xs={12}
-                  >
-                    <InputLabel id="demo-simple-select-outlined-label">Tipo de construccion</InputLabel>
-                    <Select
-                      error={Boolean(touched.constructionType && errors.constructionType)}
-                      helperText={touched.constructionType && errors.constructionType}
-                      labelId="demo-simple-select-outlined-label"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      fullWidth
-                      name="constructionType"
-                      value={values.constructionType}
-                    >
-                      {
-                        constructionTypes.map((ct) => <MenuItem value={ct.id}>{ct.description}</MenuItem>)
-                      }
-                    </Select>
-                  </Grid>
-                  <Grid
-                    item
-                    md={6}
-                    xs={12}
-                  >
                     <TextField
                       fullWidth
-                      error={Boolean(touched.address && errors.address)}
-                      helperText={touched.address && errors.address}
-                      label="Direccion"
-                      name="address"
+                      error={Boolean(touched.name && errors.name)}
+                      helperText={touched.name && errors.name}
+                      label="Nombre"
+                      name="name"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      value={values.address}
+                      value={values.name}
                       variant="outlined"
                     />
                   </Grid>
@@ -178,13 +100,13 @@ const EmployeeNewConstruction = () => {
                   >
                     <TextField
                       fullWidth
-                      error={Boolean(touched.latitude && errors.latitude)}
-                      helperText={touched.latitude && errors.latitude}
-                      label="Latitud"
-                      name="latitude"
+                      error={Boolean(touched.price && errors.price)}
+                      helperText={touched.price && errors.price}
+                      label="Precio"
+                      name="price"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      value={values.latitude}
+                      value={values.price}
                       variant="outlined"
                       type="number"
                     />
@@ -196,13 +118,13 @@ const EmployeeNewConstruction = () => {
                   >
                     <TextField
                       fullWidth
-                      error={Boolean(touched.longitude && errors.longitude)}
-                      helperText={touched.longitude && errors.longitude}
-                      label="Longitud"
-                      name="longitude"
+                      error={Boolean(touched.actualStock && errors.actualStock)}
+                      helperText={touched.actualStock && errors.actualStock}
+                      label="Stock actual"
+                      name="actualStock"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      value={values.longitude}
+                      value={values.actualStock}
                       variant="outlined"
                       type="number"
                     />
@@ -214,13 +136,13 @@ const EmployeeNewConstruction = () => {
                   >
                     <TextField
                       fullWidth
-                      error={Boolean(touched.area && errors.area)}
-                      helperText={touched.area && errors.area}
-                      label="Area"
-                      name="area"
+                      error={Boolean(touched.minimumStock && errors.minimumStock)}
+                      helperText={touched.minimumStock && errors.minimumStock}
+                      label="Stock minimo"
+                      name="minimumStock"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      value={values.area}
+                      value={values.minimumStock}
                       variant="outlined"
                       type="number"
                     />
@@ -260,4 +182,4 @@ const EmployeeNewConstruction = () => {
   );
 };
 
-export default EmployeeNewConstruction;
+export default EmployeeNewMaterial;

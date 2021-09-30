@@ -36,22 +36,22 @@ const items = [
     title: 'Obras'
   },
   {
-    href: '/app/products',
+    href: '/app/material',
     icon: MaterialIcon,
     title: 'Materiales'
   },
   {
-    href: '/app/settings',
+    href: '/app/order',
     icon: OrderIcon,
     title: 'Pedidos'
   },
   {
-    href: '/app/settings',
+    href: '/app/payment',
     icon: PaymentIcon,
     title: 'Pagos'
   },
   {
-    href: '/login',
+    href: '/app/shipment',
     icon: ShipmentIcon,
     title: 'Envios'
   }

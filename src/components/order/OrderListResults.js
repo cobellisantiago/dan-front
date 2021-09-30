@@ -17,17 +17,17 @@ import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-const ConstructionListResults = ({ customers, ...rest }) => {
+const OrderListResults = ({ customers, ...rest }) => {
   const navigate = useNavigate();
-  const [constructions, setConstructions] = useState(customers);
+  const [orders, setOrders] = useState(customers);
 
   const handleClick = () => {
-    navigate('/app/construction/edit', { replace: true });
+    navigate('/app/material/edit', { replace: true });
   };
 
-  const handleDeleteClick = (construction) => {
-    const filtered = constructions.filter((i) => i.id !== construction.id);
-    setConstructions(filtered);
+  const handleDeleteClick = (order) => {
+    const filtered = orders.filter((i) => i.id !== order.id);
+    setOrders(filtered);
   };
 
   return (
@@ -41,16 +41,13 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                   ID
                 </TableCell>
                 <TableCell>
-                  TIPO
+                  CONSTRUCCION
                 </TableCell>
                 <TableCell>
-                  DIRECCION
+                  FECHA DE ENVIO
                 </TableCell>
                 <TableCell>
-                  LATITUD
-                </TableCell>
-                <TableCell>
-                  LONGITUD
+                  ESTADO
                 </TableCell>
                 <TableCell>
                   ACCION
@@ -58,10 +55,10 @@ const ConstructionListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {constructions.map((construction) => (
+              {orders.map((order) => (
                 <TableRow
                   hover
-                  key={construction.id}
+                  key={order.id}
                 >
                   <TableCell>
                     <Box
@@ -74,21 +71,18 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {construction.name}
+                        {order.name}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {construction.email}
+                    {order.email}
                   </TableCell>
                   <TableCell>
-                    {construction.address.country}
+                    {moment(order.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {construction.phone}
-                  </TableCell>
-                  <TableCell>
-                    {moment(construction.createdAt).format('DD/MM/YYYY')}
+                    {order.address.country}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -99,7 +93,7 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                       Editar
                     </Button>
                     <Button
-                      onClick={() => handleDeleteClick(construction)}
+                      onClick={() => handleDeleteClick(order)}
                     >
                       <SvgIcon
                         fontSize="small"
@@ -119,8 +113,8 @@ const ConstructionListResults = ({ customers, ...rest }) => {
   );
 };
 
-ConstructionListResults.propTypes = {
+OrderListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };
 
-export default ConstructionListResults;
+export default OrderListResults;

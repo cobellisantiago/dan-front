@@ -17,17 +17,17 @@ import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-const ConstructionListResults = ({ customers, ...rest }) => {
+const MaterialListResults = ({ customers, ...rest }) => {
   const navigate = useNavigate();
-  const [constructions, setConstructions] = useState(customers);
+  const [materials, setMaterials] = useState(customers);
 
   const handleClick = () => {
-    navigate('/app/construction/edit', { replace: true });
+    navigate('/app/material/edit', { replace: true });
   };
 
-  const handleDeleteClick = (construction) => {
-    const filtered = constructions.filter((i) => i.id !== construction.id);
-    setConstructions(filtered);
+  const handleDeleteClick = (material) => {
+    const filtered = materials.filter((i) => i.id !== material.id);
+    setMaterials(filtered);
   };
 
   return (
@@ -41,16 +41,19 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                   ID
                 </TableCell>
                 <TableCell>
-                  TIPO
+                  NOMBRE
                 </TableCell>
                 <TableCell>
-                  DIRECCION
+                  DESCRIPCION
                 </TableCell>
                 <TableCell>
-                  LATITUD
+                  PRECIO
                 </TableCell>
                 <TableCell>
-                  LONGITUD
+                  STOCK ACTUAL
+                </TableCell>
+                <TableCell>
+                  STOCK MINIMO
                 </TableCell>
                 <TableCell>
                   ACCION
@@ -58,10 +61,10 @@ const ConstructionListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {constructions.map((construction) => (
+              {materials.map((m) => (
                 <TableRow
                   hover
-                  key={construction.id}
+                  key={m.id}
                 >
                   <TableCell>
                     <Box
@@ -74,21 +77,24 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {construction.name}
+                        {m.name}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {construction.email}
+                    {m.email}
                   </TableCell>
                   <TableCell>
-                    {construction.address.country}
+                    {m.address.country}
                   </TableCell>
                   <TableCell>
-                    {construction.phone}
+                    {m.phone}
                   </TableCell>
                   <TableCell>
-                    {moment(construction.createdAt).format('DD/MM/YYYY')}
+                    {m.phone}
+                  </TableCell>
+                  <TableCell>
+                    {moment(m.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -99,7 +105,7 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                       Editar
                     </Button>
                     <Button
-                      onClick={() => handleDeleteClick(construction)}
+                      onClick={() => handleDeleteClick(m)}
                     >
                       <SvgIcon
                         fontSize="small"
@@ -119,8 +125,8 @@ const ConstructionListResults = ({ customers, ...rest }) => {
   );
 };
 
-ConstructionListResults.propTypes = {
+MaterialListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };
 
-export default ConstructionListResults;
+export default MaterialListResults;

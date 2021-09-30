@@ -17,17 +17,17 @@ import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-const ConstructionListResults = ({ customers, ...rest }) => {
+const ShipmentListResults = ({ customers, ...rest }) => {
   const navigate = useNavigate();
-  const [constructions, setConstructions] = useState(customers);
+  const [shipments, setShipments] = useState(customers);
 
   const handleClick = () => {
-    navigate('/app/construction/edit', { replace: true });
+    navigate('/app/shipment/edit', { replace: true });
   };
 
-  const handleDeleteClick = (construction) => {
-    const filtered = constructions.filter((i) => i.id !== construction.id);
-    setConstructions(filtered);
+  const handleDeleteClick = (shipment) => {
+    const filtered = shipments.filter((i) => i.id !== shipment.id);
+    setShipments(filtered);
   };
 
   return (
@@ -41,16 +41,13 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                   ID
                 </TableCell>
                 <TableCell>
-                  TIPO
+                  DIRECCION DESTINO
                 </TableCell>
                 <TableCell>
-                  DIRECCION
+                  FECHA DE ENVIO
                 </TableCell>
                 <TableCell>
-                  LATITUD
-                </TableCell>
-                <TableCell>
-                  LONGITUD
+                  COSTO
                 </TableCell>
                 <TableCell>
                   ACCION
@@ -58,10 +55,10 @@ const ConstructionListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {constructions.map((construction) => (
+              {shipments.map((shipment) => (
                 <TableRow
                   hover
-                  key={construction.id}
+                  key={shipment.id}
                 >
                   <TableCell>
                     <Box
@@ -74,21 +71,18 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {construction.name}
+                        {shipment.name}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {construction.email}
+                    {shipment.email}
                   </TableCell>
                   <TableCell>
-                    {construction.address.country}
+                    {moment(shipment.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {construction.phone}
-                  </TableCell>
-                  <TableCell>
-                    {moment(construction.createdAt).format('DD/MM/YYYY')}
+                    {shipment.address.country}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -99,7 +93,7 @@ const ConstructionListResults = ({ customers, ...rest }) => {
                       Editar
                     </Button>
                     <Button
-                      onClick={() => handleDeleteClick(construction)}
+                      onClick={() => handleDeleteClick(shipment)}
                     >
                       <SvgIcon
                         fontSize="small"
@@ -119,8 +113,8 @@ const ConstructionListResults = ({ customers, ...rest }) => {
   );
 };
 
-ConstructionListResults.propTypes = {
+ShipmentListResults.propTypes = {
   customers: PropTypes.array.isRequired
 };
 
-export default ConstructionListResults;
+export default ShipmentListResults;

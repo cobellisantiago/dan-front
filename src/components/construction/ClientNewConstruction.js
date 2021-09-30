@@ -91,10 +91,8 @@ const ClientNewConstruction = () => {
                     labelId="demo-simple-select-outlined-label"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    label="Tipo de construccion"
                     fullWidth
                     name="constructionType"
-                    required
                     value={values.constructionType}
                   >
                     {
@@ -111,7 +109,6 @@ const ClientNewConstruction = () => {
                     fullWidth
                     error={Boolean(touched.address && errors.address)}
                     helperText={touched.address && errors.address}
-                    required
                     label="Direccion"
                     name="address"
                     onBlur={handleBlur}
@@ -129,7 +126,6 @@ const ClientNewConstruction = () => {
                     fullWidth
                     error={Boolean(touched.description && errors.description)}
                     helperText={touched.description && errors.description}
-                    required
                     label="Descripcion"
                     name="description"
                     onBlur={handleBlur}
@@ -147,7 +143,6 @@ const ClientNewConstruction = () => {
                     fullWidth
                     error={Boolean(touched.latitude && errors.latitude)}
                     helperText={touched.latitude && errors.latitude}
-                    required
                     label="Latitud"
                     name="latitude"
                     onBlur={handleBlur}
@@ -166,7 +161,6 @@ const ClientNewConstruction = () => {
                     fullWidth
                     error={Boolean(touched.longitude && errors.longitude)}
                     helperText={touched.longitude && errors.longitude}
-                    required
                     label="Longitud"
                     name="longitude"
                     onBlur={handleBlur}
@@ -185,7 +179,6 @@ const ClientNewConstruction = () => {
                     fullWidth
                     error={Boolean(touched.area && errors.area)}
                     helperText={touched.area && errors.area}
-                    required
                     label="Area"
                     name="area"
                     onBlur={handleBlur}
