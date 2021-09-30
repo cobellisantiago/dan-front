@@ -30,7 +30,6 @@ const Register = () => {
 
   useEffect(() => {
     if (clientValue) {
-      console.log('Sending client');
       addNewClient(clientValue);
     }
   }, [clientValue]);
@@ -42,7 +41,6 @@ const Register = () => {
   const addNewClient = () => {
     dispatch(addingClient());
     Clients.addClient(clientValue).then((data) => {
-      console.log(data);
       dispatch(addClient(data.body));
       navigate('/app/account', { replace: true });
     }).catch((err) => {

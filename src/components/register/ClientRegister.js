@@ -6,7 +6,7 @@ import {
   TextField, Typography
 } from '@material-ui/core';
 
-const ClientRegister = ({ client, setClient, enabledButton }) => {
+const ClientRegister = ({ client, setClient, enabledButton }) => (
   // const samePassword = () => {
   //   const password = document.getElementById('passwordField');
   //   const passwordCheck = document.getElementById('passwordCheckField');
@@ -16,10 +16,8 @@ const ClientRegister = ({ client, setClient, enabledButton }) => {
   //     passwordCheck.setCustomValidity('');
   //   }
   // };
-  console.log('registro clientes');
-  return (
-    <Formik
-      initialValues={{
+  <Formik
+    initialValues={{
         cuil: '',
         businessName: '',
         user: '',
@@ -28,9 +26,9 @@ const ClientRegister = ({ client, setClient, enabledButton }) => {
         passwordCheck: '',
         currentBalance: '',
         maxCurrentAccount: '',
-        onlineEnabled: false
+        onlineEnabled: false,
       }}
-      validationSchema={
+    validationSchema={
         Yup.object().shape({
           cuil: Yup.number().max(99999999999).required('Campo requerido'),
           businessName: Yup.string().max(255).required('Campo requerido'),
@@ -42,25 +40,25 @@ const ClientRegister = ({ client, setClient, enabledButton }) => {
           maxCurrentAccount: Yup.string().max(255).required('Campo requerido')
         })
       }
-      onSubmit={(values) => {
+    onSubmit={(values) => {
         setClient({
-          bussinessName: values.businessName,
+          businessName: values.businessName,
           cuit: values.cuil,
           mail: values.email,
           maxCurrentAccount: values.maxCurrentAccount,
           onlineEnabled: values.onlineEnabled,
+          currentBalance: values.currentBalance,
           user: {
             user: values.user,
             password: values.password,
             userType: {
-             id: 0,
-             type: 'cliente'
+             id: 1,
            }
          }
         });
       }}
-    >
-      {({
+  >
+    {({
           errors,
           handleBlur,
           handleChange,
@@ -216,8 +214,6 @@ const ClientRegister = ({ client, setClient, enabledButton }) => {
             </Box>
           </form>
       )}
-    </Formik>
+  </Formik>
   );
-};
-
 export default ClientRegister;
