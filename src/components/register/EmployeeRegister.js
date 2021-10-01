@@ -7,7 +7,7 @@ import {
   TextField
 } from '@material-ui/core';
 
-const EmployeeRegister = () => {
+const EmployeeRegister = ({ employee }) => {
   const navigate = useNavigate();
 
   // const samePassword = () => {

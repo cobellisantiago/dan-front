@@ -1,12 +1,19 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
-import App from './App';
+import store from './store';
+import SwitchApp from './navigation/Router';
 
-ReactDOM.render((
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-), document.getElementById('root'));
+const Index = () => {
+  serviceWorker.unregister();
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <SwitchApp />
+      </Provider>
+    </BrowserRouter>
+  );
+};
 
-serviceWorker.unregister();
+ReactDOM.render(<Index />, document.getElementById('root'));
