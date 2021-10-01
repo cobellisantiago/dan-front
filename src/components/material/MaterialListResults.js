@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -15,11 +14,15 @@ import {
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const MaterialListResults = ({ customers, ...rest }) => {
+const MaterialListResults = ({ products, ...rest }) => {
   const navigate = useNavigate();
-  const [materials, setMaterials] = useState(customers);
+  const [materials, setMaterials] = useState([]);
+
+  useEffect(() => {
+    setMaterials(products);
+  }, [products]);
 
   const handleClick = () => {
     navigate('/app/material/edit', { replace: true });
@@ -61,10 +64,10 @@ const MaterialListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {materials.map((m) => (
+              {materials.map((material) => (
                 <TableRow
                   hover
-                  key={m.id}
+                  key={material.id}
                 >
                   <TableCell>
                     <Box
@@ -77,24 +80,24 @@ const MaterialListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {m.name}
+                        {material.id}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {m.email}
+                    {material.name}
                   </TableCell>
                   <TableCell>
-                    {m.address.country}
+                    {material.description}
                   </TableCell>
                   <TableCell>
-                    {m.phone}
+                    {material.price}
                   </TableCell>
                   <TableCell>
-                    {m.phone}
+                    {material.actualStock}
                   </TableCell>
                   <TableCell>
-                    {moment(m.createdAt).format('DD/MM/YYYY')}
+                    {material.minimumStock}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -105,7 +108,7 @@ const MaterialListResults = ({ customers, ...rest }) => {
                       Editar
                     </Button>
                     <Button
-                      onClick={() => handleDeleteClick(m)}
+                      onClick={() => handleDeleteClick(material)}
                     >
                       <SvgIcon
                         fontSize="small"
@@ -125,8 +128,12 @@ const MaterialListResults = ({ customers, ...rest }) => {
   );
 };
 
+MaterialListResults.defaultProps = {
+  products: []
+};
+
 MaterialListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  products: PropTypes.array
 };
 
 export default MaterialListResults;

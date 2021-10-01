@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -20,7 +20,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ConstructionListResults = ({ constructions, ...rest }) => {
   const [selectedConstructionIds, setSelectedConstructionIds] = useState([]);
-  const [constructionsList, setConstructionsList] = useState(constructions || []);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
@@ -29,15 +28,11 @@ const ConstructionListResults = ({ constructions, ...rest }) => {
     navigate('/app/construction/edit', { replace: true });
   };
 
-  useEffect(() => {
-    setConstructionsList(constructions);
-  }, [constructions]);
-
   const handleSelectAll = (event) => {
     let newSelectedConstructionIds;
 
     if (event.target.checked) {
-      newSelectedConstructionIds = constructionsList.map((construction) => construction.id);
+      newSelectedConstructionIds = constructions.map((construction) => construction.id);
     } else {
       newSelectedConstructionIds = [];
     }
@@ -82,11 +77,11 @@ const ConstructionListResults = ({ constructions, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedConstructionIds.length === constructionsList.length}
+                    checked={selectedConstructionIds.length === constructions.length}
                     color="primary"
                     indeterminate={
                       selectedConstructionIds.length > 0
-                      && selectedConstructionIds.length < constructionsList.length
+                      && selectedConstructionIds.length < constructions.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -112,7 +107,7 @@ const ConstructionListResults = ({ constructions, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {constructionsList.slice(0, limit).map((construction) => (
+              {constructions.slice(0, limit).map((construction) => (
                 <TableRow
                   hover
                   key={construction.id}
@@ -178,7 +173,7 @@ const ConstructionListResults = ({ constructions, ...rest }) => {
       <TablePagination
         labelRowsPerPage="Filas por Pagina"
         component="div"
-        count={constructionsList.length}
+        count={constructions.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
