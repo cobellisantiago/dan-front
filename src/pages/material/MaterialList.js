@@ -7,6 +7,7 @@ import { Products } from '../../services';
 
 const MaterialList = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const loadProducts = () => {
     Products.getProducts().then((data) => setProducts(data.data || []))
@@ -30,9 +31,17 @@ const MaterialList = () => {
         }}
       >
         <Container maxWidth={false}>
-          <MaterialListToolbar loadProducts={loadProducts} />
+          <MaterialListToolbar
+            loadProducts={loadProducts}
+            selectedProduct={selectedProduct}
+            setSelectedProduct={setSelectedProduct}
+          />
           <Box sx={{ pt: 3 }}>
-            <MaterialListResults products={products} />
+            <MaterialListResults
+              products={products}
+              setSelectedProduct={setSelectedProduct}
+              loadProducts={loadProducts}
+            />
           </Box>
         </Container>
       </Box>

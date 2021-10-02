@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
@@ -13,28 +14,23 @@ import {
   Typography
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Products } from '../../services';
 
-const MaterialListResults = ({ products, ...rest }) => {
-  const navigate = useNavigate();
+const MaterialListResults = ({ products, setSelectedProduct, loadProducts }) => {
   const [materials, setMaterials] = useState([]);
 
   useEffect(() => {
     setMaterials(products);
   }, [products]);
 
-  const handleClick = () => {
-    navigate('/app/material/edit', { replace: true });
-  };
-
   const handleDeleteClick = (material) => {
-    const filtered = materials.filter((i) => i.id !== material.id);
-    setMaterials(filtered);
+    Products.deleteProduct(material.id)
+      .then(() => loadProducts())
+      .catch((err) => {});
   };
 
   return (
-    <Card {...rest}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -103,7 +99,7 @@ const MaterialListResults = ({ products, ...rest }) => {
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={handleClick}
+                      onClick={() => setSelectedProduct(material)}
                     >
                       Editar
                     </Button>

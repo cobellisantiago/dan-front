@@ -1,4 +1,6 @@
-import { getRequest, postRequest, Servers } from '../common/api';
+import {
+ getRequest, postRequest, putRequest, Servers, deleteRequest
+} from '../common/api';
 
 const Endpoints = {
   products: '/products'
@@ -22,7 +24,15 @@ export async function createProduct(body) {
 
 export async function editProduct(id, body) {
   try {
-    return await postRequest(`${Servers.PRODUCTS_URL}/${id}`, Endpoints.products, body);
+    return await putRequest(Servers.PRODUCTS_URL, `${Endpoints.products}/${id}`, body);
+  } catch (error) {
+    throw error.response;
+  }
+}
+
+export async function deleteProduct(id) {
+  try {
+    return await deleteRequest(Servers.PRODUCTS_URL, `${Endpoints.products}/${id}`);
   } catch (error) {
     throw error.response;
   }

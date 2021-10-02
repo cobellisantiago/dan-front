@@ -15,16 +15,19 @@ const useStyles = makeStyles({
   }
 });
 
-const AddMaterial = ({ loadProducts, setShowAddNewProduct }) => {
+const AddMaterial = ({
+ loadProducts, setShowAddNewProduct, selectedProduct, setSelectedProduct
+}) => {
   const classes = useStyles();
   const [isSaving, setIsSaving] = useState(false);
 
   const handleClose = () => {
     setShowAddNewProduct(false);
+    setSelectedProduct(null);
   };
 
   const submit = (values) => {
-    const product = {
+    const data = {
       name: values.name,
       description: values.description,
       price: values.price,
@@ -32,13 +35,16 @@ const AddMaterial = ({ loadProducts, setShowAddNewProduct }) => {
       minimumStock: values.minimumStock
     };
 
-    Products.createProduct(product)
-      .then(() => loadProducts())
+    const request = selectedProduct ? Products.editProduct(selectedProduct.id, data) : Products.createProduct(data);
+
+    request
+      .then(() => {
+        setSelectedProduct(null);
+        setShowAddNewProduct(false);
+        loadProducts();
+      })
       .catch((err) => {})
-      .finally(() => {
-        setIsSaving(false);
-        handleClose();
-      });
+      .finally(() => setIsSaving(false));
   };
 
   return (
@@ -48,14 +54,14 @@ const AddMaterial = ({ loadProducts, setShowAddNewProduct }) => {
       onClose={handleClose}
       containerClass={classes.container}
     >
-      <Box pl={5} pr={6.5} pb={4} height="100%">
+      <Box pl={5} pr={6.5} pb={4} pt={2} height="100%">
         <Formik
           initialValues={{
-            name: '',
-            description: '',
-            price: '',
-            actualStock: '',
-            minimumStock: ''
+            name: selectedProduct ? selectedProduct.name : '',
+            description: selectedProduct ? selectedProduct.description : '',
+            price: selectedProduct ? selectedProduct.price : '',
+            actualStock: selectedProduct ? selectedProduct.actualStock : '',
+            minimumStock: selectedProduct ? selectedProduct.minimumStock : ''
           }}
           validationSchema={Yup.object().shape({
             name: Yup.string().required('Campo requerido'),
@@ -75,7 +81,7 @@ const AddMaterial = ({ loadProducts, setShowAddNewProduct }) => {
             touched,
             values
           }) => (
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
               <Grid
                 container
                 spacing={3}

@@ -11,7 +11,7 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import AddMaterial from 'src/pages/material/AddMaterial';
 
-const MaterialListToolbar = ({ loadProducts }) => {
+const MaterialListToolbar = ({ loadProducts, selectedProduct, setSelectedProduct }) => {
   const [showAddNewProduct, setShowAddNewProduct] = useState(false);
 
   return (
@@ -59,7 +59,14 @@ const MaterialListToolbar = ({ loadProducts }) => {
         </Box>
       </Box>
 
-      {showAddNewProduct && <AddMaterial loadProducts={loadProducts} setShowAddNewProduct={setShowAddNewProduct} />}
+      {(showAddNewProduct || selectedProduct) && (
+        <AddMaterial
+          loadProducts={loadProducts}
+          setShowAddNewProduct={setShowAddNewProduct}
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+        />
+      )}
     </>
   );
 };
