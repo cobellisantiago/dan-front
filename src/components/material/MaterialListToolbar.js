@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,24 +9,21 @@ import {
   SvgIcon
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
-import { useNavigate } from 'react-router-dom';
+import AddMaterial from 'src/pages/material/AddMaterial';
 
-const MaterialListToolbar = (props) => {
-  const navigate = useNavigate();
-
-  function handleClick() {
-    navigate('/app/material/add', { replace: true });
-  }
+const MaterialListToolbar = ({ loadProducts, selectedProduct, setSelectedProduct }) => {
+  const [showAddNewProduct, setShowAddNewProduct] = useState(false);
 
   return (
-    <Box {...props} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-      <Box sx={{ maxWidth: '50', alignSelf: 'start' }}>
-        <Card sx={{ paddingBottom: 0, display: 'flex' }}>
-          <CardContent sx={{ width: 400 }}>
-            <Box>
-              <TextField
-                fullWidth
-                InputProps={{
+    <>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ maxWidth: '50', alignSelf: 'start' }}>
+          <Card sx={{ paddingBottom: 0, display: 'flex' }}>
+            <CardContent sx={{ width: 400 }}>
+              <Box>
+                <TextField
+                  fullWidth
+                  InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
                       <SvgIcon
@@ -38,29 +35,39 @@ const MaterialListToolbar = (props) => {
                     </InputAdornment>
                   )
                 }}
-                placeholder="Buscar material"
-                variant="outlined"
-              />
-            </Box>
-          </CardContent>
+                  placeholder="Buscar material"
+                  variant="outlined"
+                />
+              </Box>
+            </CardContent>
+            <Button
+              variant="contained"
+              sx={{ height: 40, alignSelf: 'center', marginRight: 2 }}
+            >
+              Buscar
+            </Button>
+          </Card>
+        </Box>
+        <Box sx={{ alignSelf: 'center' }}>
           <Button
+            color="primary"
             variant="contained"
-            sx={{ height: 40, alignSelf: 'center', marginRight: 2 }}
+            onClick={() => setShowAddNewProduct(true)}
           >
-            Buscar
+            Agregar material
           </Button>
-        </Card>
+        </Box>
       </Box>
-      <Box sx={{ alignSelf: 'center' }}>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={handleClick}
-        >
-          Agregar material
-        </Button>
-      </Box>
-    </Box>
+
+      {(showAddNewProduct || selectedProduct) && (
+        <AddMaterial
+          loadProducts={loadProducts}
+          setShowAddNewProduct={setShowAddNewProduct}
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+        />
+      )}
+    </>
   );
 };
 

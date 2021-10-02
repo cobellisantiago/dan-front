@@ -8,8 +8,10 @@ import { fetchConstruction, fetchConstructionsError, setConstructions } from '..
 import { Constructions } from '../../services';
 
 const ConstructionList = () => {
+  const dispatch = useDispatch();
+
   const {
- construction, constructions, fetchingConstruction, errorFetchingConstruction, fetchingConstructions, errorFetchingConstructions
+construction, constructions, fetchingConstruction, errorFetchingConstruction, fetchingConstructions, errorFetchingConstructions
 } = useSelector((state) => ({
     construction: state.constructions.construction,
     fetchingConstruction: state.constructions.fetchingConstruction,
@@ -18,8 +20,7 @@ const ConstructionList = () => {
     fetchingConstructions: state.constructions.fetchingConstructions,
     errorFetchingConstructions: state.constructions.errorFetchingConstructions
   }));
-  const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
+
   const loadConstructions = () => {
     dispatch(fetchConstruction());
     Constructions.getConstructions().then((data) => {

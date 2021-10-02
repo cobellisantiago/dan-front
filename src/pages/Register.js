@@ -94,7 +94,6 @@ const Register = () => {
             sx={{ textAlign: 'center' }}
           >
             ¿Tienes una cuenta?
-            {' '}
             <Link
               component={RouterLink}
               to="/login"

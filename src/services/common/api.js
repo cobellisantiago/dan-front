@@ -4,10 +4,10 @@ const axiosClient = axios.create();
 
 export const Servers = {
   USERS_URL: '/users/api-users',
-   ORDERS_URL: '/orders/api-orders',
-   PRODUCTS_URL: '/products/api-products',
-   PAYMENTS_URL: '/payments/api-payments',
-   SHIPMENTS_URL: '/shipments/api-shipments',
+  ORDERS_URL: '/orders/api-orders',
+  PRODUCTS_URL: '/products/api-products',
+  PAYMENTS_URL: '/payments/api-payments',
+  SHIPMENTS_URL: '/shipments/api-shipments',
 };
 
 axiosClient.defaults.baseURL = 'http://localhost:7000';
