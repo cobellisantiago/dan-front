@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Formik } from 'formik';
 import Modal from 'src/components/Modal';
 import * as Yup from 'yup';
+import ErrorDialog from 'src/components/ErrorDialog';
 import { Products } from '../../services';
 
 const useStyles = makeStyles({
@@ -20,13 +21,14 @@ const AddMaterial = ({
 }) => {
   const classes = useStyles();
   const [isSaving, setIsSaving] = useState(false);
+  const [errorCreatingProduct, setErrorCreatingProduct] = useState(null);
 
   const handleClose = () => {
     setShowAddNewProduct(false);
     setSelectedProduct(null);
   };
 
-  const submit = (values) => {
+  const submit = (values, actions) => {
     const data = {
       name: values.name,
       description: values.description,
@@ -43,8 +45,11 @@ const AddMaterial = ({
         setShowAddNewProduct(false);
         loadProducts();
       })
-      .catch((err) => {})
-      .finally(() => setIsSaving(false));
+      .catch((err) => setErrorCreatingProduct(err?.error || 'Unexpected Error'))
+      .finally(() => {
+        setIsSaving(false);
+        actions.setSubmitting(false);
+      });
   };
 
   return (
@@ -57,11 +62,11 @@ const AddMaterial = ({
       <Box pl={5} pr={6.5} pb={4} pt={2} height="100%">
         <Formik
           initialValues={{
-            name: selectedProduct ? selectedProduct.name : '',
-            description: selectedProduct ? selectedProduct.description : '',
-            price: selectedProduct ? selectedProduct.price : '',
-            actualStock: selectedProduct ? selectedProduct.actualStock : '',
-            minimumStock: selectedProduct ? selectedProduct.minimumStock : ''
+            name: selectedProduct?.name || '',
+            description: selectedProduct?.description || '',
+            price: selectedProduct?.price || '',
+            actualStock: selectedProduct?.actualStock || '',
+            minimumStock: selectedProduct?.minimumStock || ''
           }}
           validationSchema={Yup.object().shape({
             name: Yup.string().required('Campo requerido'),
@@ -70,7 +75,7 @@ const AddMaterial = ({
             actualStock: Yup.number().required('Campo requerido'),
             minimumStock: Yup.number().required('Campo requerido'),
           })}
-          onSubmit={(values) => submit(values)}
+          onSubmit={(values, actions) => submit(values, actions)}
         >
           {({
             errors,
@@ -203,8 +208,15 @@ const AddMaterial = ({
           )}
         </Formik>
       </Box>
-    </Modal>
 
+      {!!errorCreatingProduct && (
+        <ErrorDialog
+          title="Error al crear un Material"
+          message={errorCreatingProduct}
+          handleClose={() => setErrorCreatingProduct(null)}
+        />
+      )}
+    </Modal>
   );
 };
 

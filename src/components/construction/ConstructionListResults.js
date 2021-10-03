@@ -16,17 +16,12 @@ import {
   Typography
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
-import { useNavigate } from 'react-router-dom';
+import { Constructions } from 'src/services';
 
-const ConstructionListResults = ({ constructions, ...rest }) => {
+const ConstructionListResults = ({ constructions, setSelectedConstruction, loadConstructions }) => {
   const [selectedConstructionIds, setSelectedConstructionIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/app/construction/edit', { replace: true });
-  };
 
   const handleSelectAll = (event) => {
     let newSelectedConstructionIds;
@@ -68,8 +63,14 @@ const ConstructionListResults = ({ constructions, ...rest }) => {
     setPage(newPage);
   };
 
+  const handleDeleteClick = (construction) => {
+    Constructions.deleteConstruction(construction.id)
+      .then(() => loadConstructions())
+      .catch((err) => {});
+  };
+
   return (
-    <Card {...rest}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -151,11 +152,11 @@ const ConstructionListResults = ({ constructions, ...rest }) => {
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={handleClick}
+                      onClick={() => setSelectedConstruction(construction)}
                     >
                       Editar
                     </Button>
-                    <Button>
+                    <Button onClick={() => handleDeleteClick(construction)}>
                       <SvgIcon
                         fontSize="small"
                         color="action"
