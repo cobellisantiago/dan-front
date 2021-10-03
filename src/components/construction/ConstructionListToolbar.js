@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,17 +9,13 @@ import {
   SvgIcon
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
-import { useNavigate } from 'react-router-dom';
+import AddConstruction from 'src/pages/construction/AddConstruction';
 
-const ConstructionListToolbar = (props) => {
-  const navigate = useNavigate();
-
-  function handleClick() {
-    navigate('/app/construction/add', { replace: true });
-  }
+const ConstructionListToolbar = ({ loadConstructions, selectedConstruction, setSelectedConstruction }) => {
+  const [showAddNewConstruction, setShowAddNewConstruction] = useState(false);
 
   return (
-    <Box {...props} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <Box sx={{ maxWidth: '50', alignSelf: 'start' }}>
         <Card sx={{ paddingBottom: 0, display: 'flex' }}>
           <CardContent sx={{ width: 400 }}>
@@ -55,12 +51,20 @@ const ConstructionListToolbar = (props) => {
         <Button
           color="primary"
           variant="contained"
-          /* eslint-disable-next-line react/jsx-no-bind */
-          onClick={handleClick}
+          onClick={() => setShowAddNewConstruction(true)}
         >
           Agregar obra
         </Button>
       </Box>
+
+      {(showAddNewConstruction || selectedConstruction) && (
+        <AddConstruction
+          loadConstructions={loadConstructions}
+          setShowAddNewConstruction={setShowAddNewConstruction}
+          selectedConstruction={selectedConstruction}
+          setSelectedConstruction={setSelectedConstruction}
+        />
+      )}
     </Box>
   );
 };

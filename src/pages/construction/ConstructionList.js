@@ -1,14 +1,16 @@
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import ConstructionListResults from 'src/components/construction/ConstructionListResults';
 import ConstructionListToolbar from 'src/components/construction/ConstructionListToolbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+
 import { fetchConstruction, fetchConstructionsError, setConstructions } from '../../store/constructions/actions';
 import { Constructions } from '../../services';
 
 const ConstructionList = () => {
   const dispatch = useDispatch();
+  const [selectedConstruction, setSelectedConstruction] = useState(null);
 
   const {
 construction, constructions, fetchingConstruction, errorFetchingConstruction, fetchingConstructions, errorFetchingConstructions
@@ -48,9 +50,17 @@ construction, constructions, fetchingConstruction, errorFetchingConstruction, fe
         }}
       >
         <Container maxWidth={false}>
-          <ConstructionListToolbar />
+          <ConstructionListToolbar
+            loadConstructions={loadConstructions}
+            selectedConstruction={selectedConstruction}
+            setSelectedConstruction={setSelectedConstruction}
+          />
           <Box sx={{ pt: 3 }}>
-            <ConstructionListResults constructions={constructions} />
+            <ConstructionListResults
+              constructions={constructions}
+              loadConstructions={loadConstructions}
+              setSelectedConstruction={setSelectedConstruction}
+            />
           </Box>
         </Container>
       </Box>
