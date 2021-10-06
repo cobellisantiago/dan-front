@@ -3,39 +3,41 @@ import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import ConstructionListResults from 'src/components/construction/ConstructionListResults';
 import ConstructionListToolbar from 'src/components/construction/ConstructionListToolbar';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchConstruction, fetchConstructionsError, setConstructions } from '../../store/constructions/actions';
 import { Constructions } from '../../services';
 
 const ConstructionList = () => {
-  const dispatch = useDispatch();
   const [selectedConstruction, setSelectedConstruction] = useState(null);
-
-  const {
-construction, constructions, fetchingConstruction, errorFetchingConstruction, fetchingConstructions, errorFetchingConstructions
-} = useSelector((state) => ({
-    construction: state.constructions.construction,
-    fetchingConstruction: state.constructions.fetchingConstruction,
-    errorFetchingConstruction: state.constructions.errorFetchingConstruction,
-    constructions: state.constructions.constructions,
-    fetchingConstructions: state.constructions.fetchingConstructions,
-    errorFetchingConstructions: state.constructions.errorFetchingConstructions
-  }));
+  const [constructions, setConstructions] = useState([]);
+  const [constructionIdSearched, setConstructionIdSearched] = useState();
 
   const loadConstructions = () => {
-    dispatch(fetchConstruction());
     Constructions.getConstructions().then((data) => {
-      dispatch(setConstructions(data.data));
+     setConstructions(data.data);
     }).catch((err) => {
-      dispatch(fetchConstructionsError(err && err.data
-      && err.data.message ? err.data.message : 'Error Loading Constructions'));
+      console.log(err?.data?.message
+        ? err.data.message : 'Error Loading Constructions');
     });
+  };
+
+  const searchConstructionById = () => {
+    if (constructionIdSearched) {
+      Constructions.getConstructionById(constructionIdSearched).then((data) => {
+        setConstructions([data.data]);
+      }).catch((err) => {
+        console.log(err && err.data
+        && err.data.message ? err.data.message : 'Error Loading Constructions');
+      });
+    }
   };
 
   useEffect(() => {
     loadConstructions();
   }, []);
+
+  useEffect(() => {
+    if (!constructionIdSearched) loadConstructions();
+  }, [constructionIdSearched]);
 
   return (
     <>
@@ -54,6 +56,8 @@ construction, constructions, fetchingConstruction, errorFetchingConstruction, fe
             loadConstructions={loadConstructions}
             selectedConstruction={selectedConstruction}
             setSelectedConstruction={setSelectedConstruction}
+            searchConstruction={searchConstructionById}
+            setConstructionIdSearched={setConstructionIdSearched}
           />
           <Box sx={{ pt: 3 }}>
             <ConstructionListResults
