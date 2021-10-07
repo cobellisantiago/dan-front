@@ -17,48 +17,55 @@ import {
   Truck as ShipmentIcon,
   User as ProfileIcon
 } from 'react-feather';
+import { useSelector } from 'react-redux';
 import NavItem from './NavItem';
-
-const user = {
-  jobTitle: 'Cliente',
-  name: 'Katarina Smith'
-};
 
 const items = [
   {
     href: '/app/account',
     icon: ProfileIcon,
-    title: 'Mi perfil'
+    title: 'Mi perfil',
+    clientVisibility: true,
   },
   {
     href: '/app/construction',
     icon: ConstructionIcon,
-    title: 'Obras'
+    title: 'Obras',
+    clientVisibility: true,
   },
   {
     href: '/app/material',
     icon: MaterialIcon,
-    title: 'Materiales'
+    title: 'Materiales',
+    clientVisibility: false,
   },
   {
     href: '/app/order',
     icon: OrderIcon,
-    title: 'Pedidos'
+    title: 'Pedidos',
+    clientVisibility: true,
   },
   {
     href: '/app/payment',
     icon: PaymentIcon,
-    title: 'Pagos'
+    title: 'Pagos',
+    clientVisibility: true,
   },
   {
     href: '/app/shipment',
     icon: ShipmentIcon,
-    title: 'Envios'
+    title: 'Envios',
+    clientVisibility: false,
   }
 ];
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const { user } = useSelector((state) => ({
+   user: state.users.user,
+  }));
+
+  const { userType } = user.user;
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -86,13 +93,13 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           color="textPrimary"
           variant="h5"
         >
-          {user.name}
+          {user.businessName || user.name}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-          {user.jobTitle}
+          {user?.user?.userType?.type}
         </Typography>
       </Box>
       <Divider />
@@ -104,6 +111,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
               key={item.title}
               title={item.title}
               icon={item.icon}
+              hidden={!item.clientVisibility}
             />
           ))}
         </List>

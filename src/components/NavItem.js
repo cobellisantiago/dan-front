@@ -10,6 +10,7 @@ const NavItem = ({
   href,
   icon: Icon,
   title,
+  hidden,
   ...rest
 }) => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const NavItem = ({
         display: 'flex',
         py: 0
       }}
+      hidden={hidden}
       {...rest}
     >
       <Button
