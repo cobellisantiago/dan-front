@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -45,7 +46,7 @@ const PaymentListResults = ({ payments }) => (
                   {moment(payment.paymentDate).format('DD/MM/YYYY')}
                 </TableCell>
                 <TableCell>
-                  {payment.paymentMethod.type}
+                  {payment.paymentMethod.type === 'cash' ? 'Efectivo' : payment.paymentMethod.type === 'check' ? 'Cheque' : 'Transferencia'}
                 </TableCell>
                 <TableCell>
                   {payment.paymentMethod.observation || ''}

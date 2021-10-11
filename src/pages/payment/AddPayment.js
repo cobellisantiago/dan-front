@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
  Box, Button, TextField, Grid, Select, InputLabel, CircularProgress, MenuItem
 } from '@material-ui/core';
@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import Modal from 'src/components/Modal';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/styles';
-import { Payments } from '../../services';
+import { Payments, Clients } from '../../services';
 
 const useStyles = makeStyles({
   container: {
@@ -40,12 +40,23 @@ const AddPayment = ({ setShowAddNewPayment, loadPayments }) => {
   const [errorCreatingPayment, setErrorCreatingPayment] = useState(null);
   const [methodName, setMethodName] = useState('Efectivo');
 
+  const [clients, setClients] = useState([]);
+  const [clientId, setClientId] = useState();
+
+  const loadClients = () => {
+    Clients.getClients().then((data) => setClients(data.data || []))
+    .catch((err) => {});
+  };
+
+  useEffect(() => {
+    loadClients();
+  }, []);
+
   const handleClose = () => {
     setShowAddNewPayment(false);
   };
 
   const submit = (values, actions) => {
-    console.log(values);
     const data = {
       bank: values.bank || null,
       checkNumber: values.checkNumber || null,
@@ -58,7 +69,7 @@ const AddPayment = ({ setShowAddNewPayment, loadPayments }) => {
         type: methods.find((method) => method.name === methodName)?.type,
         observation: values.observation
       },
-      clientId: '1'
+      clientId
     };
 
     Payments.createPayment(data).then(() => {
@@ -93,7 +104,7 @@ const AddPayment = ({ setShowAddNewPayment, loadPayments }) => {
             cbu: Yup.number(),
             bank: Yup.string(),
             checkNumber: Yup.number(),
-            observation: Yup.string(),
+            observation: Yup.string()
           })}
           onSubmit={(values, actions) => submit(values, actions)}
         >
@@ -135,7 +146,24 @@ const AddPayment = ({ setShowAddNewPayment, loadPayments }) => {
                   item
                   md={6}
                   xs={12}
-                  sx={{ marginTop: 2.8 }}
+                >
+                  <InputLabel id="demo-simple-select-outlined-label">Cliente</InputLabel>
+                  <Select
+                    error={Boolean(touched.clientId && errors.clientId)}
+                    helperText={touched.clientId && errors.clientId}
+                    labelId="demo-simple-select-outlined-label"
+                    onBlur={handleBlur}
+                    onChange={(e) => setClientId(+e.target.value)}
+                    fullWidth
+                    name="clientId"
+                  >
+                    {clients.map((client) => <MenuItem id={client.id} value={+client.id}>{client.user.user}</MenuItem>)}
+                  </Select>
+                </Grid>
+                <Grid
+                  item
+                  md={6}
+                  xs={12}
                 >
                   <TextField
                     fullWidth

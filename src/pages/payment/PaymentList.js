@@ -3,14 +3,16 @@ import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import PaymentListResults from 'src/components/payment/PaymentListResults';
 import PaymentListToolbar from 'src/components/payment/PaymentListToolbar';
+import ErrorDialog from 'src/components/ErrorDialog';
 import { Payments } from '../../services';
 
 const PaymentList = () => {
   const [payments, setPayments] = useState([]);
+  const [errorFetchingPayments, setErrorFetchingPayments] = useState(null);
 
   const loadPayments = () => {
     Payments.getPayments().then((data) => setPayments(data.data || []))
-    .catch((err) => {});
+    .catch((err) => setErrorFetchingPayments(err?.data?.message || 'An Error has ocurred.'));
   };
 
   useEffect(() => {
@@ -36,6 +38,14 @@ const PaymentList = () => {
           </Box>
         </Container>
       </Box>
+
+      {!!errorFetchingPayments && (
+        <ErrorDialog
+          title="Error al buscar los Pagos"
+          message={errorFetchingPayments}
+          handleClose={() => setErrorFetchingPayments(null)}
+        />
+      )}
     </>
   );
 };
