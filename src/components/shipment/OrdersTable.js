@@ -30,8 +30,8 @@ const OrdersTable = ({ orders }) => {
 
   return (
     <Card sx={{ marginY: 3 }}>
-      <Box sx={{ minWidth: 942 }}>
-        <Table>
+      <Box sx={{ minWidth: 942, maxHeight: 210, overflowY: 'auto' }}>
+        <Table stickyHeader>
           <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
             <TableRow>
               <TableCell>

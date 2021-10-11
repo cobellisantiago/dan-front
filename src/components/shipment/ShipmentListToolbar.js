@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -10,12 +10,17 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
+import AddConstruction from '../../pages/construction/AddConstruction';
+import AddShipment from '../../pages/shipment/AddShipment';
+import NewShipment from './NewShipment';
 
-const ShipmentListToolbar = (props) => {
-  const navigate = useNavigate();
+const ShipmentListToolbar = ({
+ loadShipments, selectedShipment, setSelectedShipment, ...props
+}) => {
+  const [showAddNewShipment, setShowAddNewShipment] = useState(false);
 
   function handleClick() {
-    navigate('/app/shipment/add', { replace: true });
+    setShowAddNewShipment(true);
   }
 
   return (
@@ -60,6 +65,14 @@ const ShipmentListToolbar = (props) => {
           Agregar envio
         </Button>
       </Box>
+      {(showAddNewShipment || selectedShipment) && (
+        <AddShipment
+          loadShipments={loadShipments}
+          setShowAddNewShipment={setShowAddNewShipment}
+          selectedShipment={selectedShipment}
+          setSelectedShipment={setSelectedShipment}
+        />
+      )}
     </Box>
   );
 };

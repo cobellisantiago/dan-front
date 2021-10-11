@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet';
 import {
   Box,
   Button,
@@ -10,9 +9,13 @@ import {
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { makeStyles } from '@material-ui/styles';
 import OrdersTable from './OrdersTable';
+import Modal from '../Modal';
+import ErrorDialog from '../ErrorDialog';
+import { Constructions } from '../../services';
 
 const orders = [
   {
@@ -41,18 +44,63 @@ const orders = [
   }
 ];
 
-const EditShipment = () => {
-  const navigate = useNavigate();
+const useStyles = makeStyles({
+  container: {
+    // maxHeight: '600px',
+    // maxWidth: '700px'
+  }
+});
 
-  const handleCancelClick = () => {
-    navigate('/app/shipment', { replace: true });
+const NewShipment = ({
+ loadShipments, setShowAddNewShipment, selectedShipment, setSelectedShipment
+}) => {
+  const navigate = useNavigate();
+  const classes = useStyles();
+  const [isSaving, setIsSaving] = useState(false);
+  const [errorCreatingShipment, setErrorCreatingShipment] = useState(null);
+
+  const handleClose = () => {
+    setShowAddNewShipment(false);
+    setSelectedShipment(null);
+  };
+
+  const submit = (values, actions) => {
+    // TODO clientId must be the client logged in
+    // for now it is hardcoded with clientId: 1
+    // const data = {
+    //   constructionTypeId: values.constructionTypeId,
+    //   address: values.address,
+    //   description: values.description,
+    //   latitude: values.latitude,
+    //   longitude: values.longitude,
+    //   area: values.area,
+    //   clientId: 1
+    // };
+    //
+    // const request = selectedConstruction
+    //   ? Constructions.editConstruction(selectedConstruction.id, data)
+    //   : Constructions.createConstruction(data);
+    //
+    // request
+    //   .then(() => {
+    //     setSelectedConstruction(null);
+    //     setShowAddNewConstruction(false);
+    //     loadConstructions();
+    //   })
+    //   .catch((err) => setErrorCreatingConstruction(err?.error || 'Unexpected Error'))
+    //   .finally(() => {
+    //     setIsSaving(false);
+    //     actions.setSubmitting(false);
+    //   });
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Envios</title>
-      </Helmet>
+    <Modal
+      title="Envios"
+      open
+      onClose={handleClose}
+      containerClass={classes.container}
+    >
       <Box
         sx={{
           backgroundColor: 'background.default',
@@ -77,9 +125,9 @@ const EditShipment = () => {
                 price: Yup.number().required('Campo requerido'),
                 date: Yup.date().required('Campo requerido'),
               })}
-              onSubmit={() => {
-                navigate('/app/shipment', { replace: true });
-              }}
+              onSubmit={
+                (values, actions) => submit(values, actions)
+              }
             >
               {({
                   errors,
@@ -172,7 +220,7 @@ const EditShipment = () => {
                         variant="contained"
                         size="medium"
                         sx={{ marginRight: 2 }}
-                        onClick={handleCancelClick}
+                        onClick={handleClose}
                       >
                         Cancelar
                       </Button>
@@ -192,8 +240,15 @@ const EditShipment = () => {
           </CardContent>
         </Card>
       </Box>
-    </>
+      {!!errorCreatingShipment && (
+        <ErrorDialog
+          title="Error al crear un envío"
+          message={errorCreatingShipment}
+          handleClose={() => setErrorCreatingShipment(null)}
+        />
+      )}
+    </Modal>
   );
 };
 
-export default EditShipment;
+export default NewShipment;
