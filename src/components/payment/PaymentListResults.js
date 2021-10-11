@@ -8,20 +8,16 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
-  Typography
+  TableRow
 } from '@material-ui/core';
 
-const PaymentListResults = ({ customers, ...rest }) => (
-  <Card {...rest}>
+const PaymentListResults = ({ payments }) => (
+  <Card>
     <PerfectScrollbar>
       <Box sx={{ minWidth: 1050 }}>
         <Table>
           <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
             <TableRow>
-              <TableCell>
-                ID
-              </TableCell>
               <TableCell>
                 CLIENTE
               </TableCell>
@@ -29,39 +25,30 @@ const PaymentListResults = ({ customers, ...rest }) => (
                 FECHA
               </TableCell>
               <TableCell>
-                METODO
+                METODO DE PAGO
+              </TableCell>
+              <TableCell>
+                OBSERVACION
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {customers.map((customer) => (
+            {payments.map((payment) => (
               <TableRow
                 hover
-                key={customer.id}
+                key={payment.id}
               >
                 <TableCell>
-                  <Box
-                    sx={{
-                      alignItems: 'center',
-                      display: 'flex'
-                    }}
-                  >
-                    <Typography
-                      color="textPrimary"
-                      variant="body1"
-                    >
-                      {customer.name}
-                    </Typography>
-                  </Box>
+                  {payment.clientId}
                 </TableCell>
                 <TableCell>
-                  {customer.email}
+                  {moment(payment.paymentDate).format('DD/MM/YYYY')}
                 </TableCell>
                 <TableCell>
-                  {moment(customer.createdAt).format('DD/MM/YYYY')}
+                  {payment.paymentMethod.type}
                 </TableCell>
                 <TableCell>
-                  {customer.address.country}
+                  {payment.paymentMethod.observation || ''}
                 </TableCell>
               </TableRow>
             ))}
@@ -73,7 +60,7 @@ const PaymentListResults = ({ customers, ...rest }) => (
 );
 
 PaymentListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  payments: PropTypes.array.isRequired
 };
 
 export default PaymentListResults;

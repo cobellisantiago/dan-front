@@ -1,29 +1,31 @@
-import React from 'react';
-import {
-  Box,
-  Button
-} from '@material-ui/core';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Box, Button } from '@material-ui/core';
+import AddPayment from 'src/pages/payment/AddPayment';
 
-const PaymentListToolbar = (props) => {
-  const navigate = useNavigate();
-
-  function handleClick() {
-    navigate('/app/payment/add', { replace: true });
-  }
+const PaymentListToolbar = ({ loadPayments }) => {
+  const [showAddNewPayment, setShowAddNewPayment] = useState(false);
 
   return (
-    <Box {...props} sx={{ display: 'flex', justifyContent: 'right' }}>
-      <Box sx={{ alignSelf: 'center' }}>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={handleClick}
-        >
-          Agregar pago
-        </Button>
+    <>
+      <Box sx={{ display: 'flex', justifyContent: 'right' }}>
+        <Box sx={{ alignSelf: 'center' }}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => setShowAddNewPayment(true)}
+          >
+            Agregar pago
+          </Button>
+        </Box>
       </Box>
-    </Box>
+
+      {showAddNewPayment && (
+        <AddPayment
+          loadPayments={loadPayments}
+          setShowAddNewPayment={setShowAddNewPayment}
+        />
+      )}
+    </>
   );
 };
 
