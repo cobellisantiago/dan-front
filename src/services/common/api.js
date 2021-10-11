@@ -10,7 +10,7 @@ export const Servers = {
   SHIPMENTS_URL: '/shipments/api-shipments',
 };
 
-axiosClient.defaults.baseURL = 'http://localhost:7000';
+axiosClient.defaults.baseURL = 'http://192.168.100.2:7000';
 
 axiosClient.defaults.headers = {
   'Content-Type': 'application/json',

@@ -3,17 +3,28 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import {
   Box, Typography, Link, Radio, RadioGroup,
-  Container, FormControl, FormControlLabel, FormLabel
+  Container, FormControl, FormControlLabel, FormLabel, Button
 } from '@material-ui/core';
 import '../App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import RegisterForm from '../components/register/RegisterForm';
+import { makeStyles } from '@material-ui/styles';
 import {
   addingClient,
   addingClientError,
   addClient
 } from '../store/clients/actions';
 import { Clients } from '../services';
+import Modal from '../components/Modal';
+import RegisterForm from '../components/register/RegisterForm';
+
+const useStyles = makeStyles({
+  container: {
+    maxHeight: '250px',
+    maxWidth: '600px',
+    position: 'absolute',
+    left: '450px'
+  }
+});
 
 const Register = () => {
   // eslint-disable-next-line no-shadow
@@ -25,8 +36,10 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+  const classes = useStyles();
   const [value, setValue] = React.useState('employee');
   const [clientValue, setClient] = useState({});
+  const [showClientRegistered, setShowClientRegistered] = useState(false);
 
   useEffect(() => {
     if (clientValue) {
@@ -38,11 +51,15 @@ const Register = () => {
     setValue(event.target.value);
   };
 
+  const handleLogin = () => {
+    navigate('/login', { replace: true });
+  };
+
   const addNewClient = () => {
     dispatch(addingClient());
     Clients.addClient(clientValue).then((data) => {
       dispatch(addClient(data.body));
-      navigate('/app/account', { replace: true });
+      setShowClientRegistered(true);
     }).catch((err) => {
       dispatch(addingClientError(err && err.data
       && err.data.message ? err.data.message : 'Error Adding Client'));
@@ -104,6 +121,36 @@ const Register = () => {
             </Link>
           </Typography>
         </Container>
+        {(showClientRegistered) && (
+          <Modal
+            title="Cliente creado con exito"
+            open
+            containerClass={classes.container}
+          >
+            <Box>
+              <Typography
+                color="textSecondary"
+                variant="body1"
+                sx={{ textAlign: 'center', marginBottom: 3 }}
+              >
+                Debe iniciar sesion con el nuevo usuario para ingresar al sistema.
+              </Typography>
+              <Button
+                sx={{
+                  maxWidth: 300,
+                  display: 'block',
+                  margin: 'auto'
+                }}
+                color="primary"
+                type="submit"
+                variant="contained"
+                onClick={handleLogin}
+              >
+                Iniciar sesion
+              </Button>
+            </Box>
+          </Modal>
+        )}
       </Box>
     </>
   );

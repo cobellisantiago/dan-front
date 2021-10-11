@@ -105,15 +105,23 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       <Divider />
       <Box sx={{ p: 2 }}>
         <List>
-          {items.map((item) => (
-            <NavItem
-              href={item.href}
-              key={item.title}
-              title={item.title}
-              icon={item.icon}
-              hidden={!item.clientVisibility}
-            />
-          ))}
+          {items.map((item) => {
+            let disable;
+            if (userType?.type === 'Cliente') {
+              disable = !item.clientVisibility;
+            } else {
+              disable = false;
+            }
+            return (
+              <NavItem
+                href={item.href}
+                key={item.title}
+                title={item.title}
+                icon={item.icon}
+                disabled={disable}
+              />
+            );
+          })}
         </List>
       </Box>
     </Box>

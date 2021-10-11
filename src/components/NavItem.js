@@ -10,7 +10,7 @@ const NavItem = ({
   href,
   icon: Icon,
   title,
-  hidden,
+  disabled,
   ...rest
 }) => {
   const location = useLocation();
@@ -27,11 +27,11 @@ const NavItem = ({
         display: 'flex',
         py: 0
       }}
-      hidden={hidden}
       {...rest}
     >
       <Button
         component={RouterLink}
+        disabled={disabled}
         sx={{
           color: 'text.secondary',
           fontWeight: 'medium',
