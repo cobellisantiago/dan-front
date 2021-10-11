@@ -1,5 +1,5 @@
 import {
-  getRequest, postRequest, putRequest, Servers, deleteRequest
+ getRequest, postRequest, putRequest, Servers, deleteRequest
 } from '../common/api';
 
 const Endpoints = {

@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -15,23 +16,16 @@ import {
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
-const OrderListResults = ({ customers, ...rest }) => {
+const OrderListResults = ({ orders }) => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState(customers);
 
   const handleClick = () => {
     navigate('/app/material/edit', { replace: true });
   };
 
-  const handleDeleteClick = (order) => {
-    const filtered = orders.filter((i) => i.id !== order.id);
-    setOrders(filtered);
-  };
-
   return (
-    <Card {...rest}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -92,9 +86,7 @@ const OrderListResults = ({ customers, ...rest }) => {
                     >
                       Editar
                     </Button>
-                    <Button
-                      onClick={() => handleDeleteClick(order)}
-                    >
+                    <Button>
                       <SvgIcon
                         fontSize="small"
                         color="action"
@@ -114,7 +106,7 @@ const OrderListResults = ({ customers, ...rest }) => {
 };
 
 OrderListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  orders: PropTypes.array.isRequired
 };
 
 export default OrderListResults;
