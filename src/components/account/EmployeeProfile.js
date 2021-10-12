@@ -1,29 +1,13 @@
 import { useState } from 'react';
 import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Grid,
-  TextField
+ Box, Button, Card, CardContent, CardHeader, Divider, Grid, TextField
 } from '@material-ui/core';
 
-const user = {
-  firstName: 'Juan Ignacio',
-  lastName: 'Perez',
-  userType: 'Empleado',
-  dni: '32094895',
-  email: 'jperez@gmail.com'
-};
-
-const EmployeeProfile = (props) => {
+const EmployeeProfile = ({ user, ...props }) => {
   const [values, setValues] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    dni: user.dni
+    firstName: user.name.split(/(\s+)/)[0],
+    lastName: user.name.split(/(\s+)/)[2],
+    email: user.mail,
   });
 
   const handleChange = (event) => {
@@ -36,8 +20,8 @@ const EmployeeProfile = (props) => {
   return (
     <Card {...props} sx={{ padding: 3 }}>
       <CardHeader
-        title={`${user.firstName} ${user.lastName}`}
-        subheader={user.userType}
+        title={`${values.firstName} ${values.lastName}`}
+        subheader="Empleado"
         titleTypographyProps={{ variant: 'h2' }}
         subheaderTypographyProps={{ variant: 'h4' }}
         sx={{ textAlign: 'center', backgroundColor: 'secondary' }}
@@ -78,22 +62,22 @@ const EmployeeProfile = (props) => {
               variant="outlined"
             />
           </Grid>
-          <Grid
-            item
-            md={6}
-            xs={12}
-          >
-            <TextField
-              fullWidth
-              disabled="true"
-              label="DNI"
-              name="dni"
-              tyoe="number"
-              onChange={handleChange}
-              value={values.dni}
-              variant="outlined"
-            />
-          </Grid>
+          {/* <Grid */}
+          {/*  item */}
+          {/*  md={6} */}
+          {/*  xs={12} */}
+          {/* > */}
+          {/*  <TextField */}
+          {/*    fullWidth */}
+          {/*    disabled="true" */}
+          {/*    label="DNI" */}
+          {/*    name="dni" */}
+          {/*    tyoe="number" */}
+          {/*    onChange={handleChange} */}
+          {/*    value={values.dni} */}
+          {/*    variant="outlined" */}
+          {/*  /> */}
+          {/* </Grid> */}
           <Grid
             item
             md={6}

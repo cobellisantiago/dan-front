@@ -11,7 +11,9 @@ import {
 import { Search as SearchIcon } from 'react-feather';
 import AddConstruction from 'src/pages/construction/AddConstruction';
 
-const ConstructionListToolbar = ({ loadConstructions, selectedConstruction, setSelectedConstruction }) => {
+const ConstructionListToolbar = ({
+ loadConstructions, selectedConstruction, setSelectedConstruction, searchConstruction, setConstructionIdSearched
+}) => {
   const [showAddNewConstruction, setShowAddNewConstruction] = useState(false);
 
   return (
@@ -22,6 +24,7 @@ const ConstructionListToolbar = ({ loadConstructions, selectedConstruction, setS
             <Box>
               <TextField
                 fullWidth
+                onChange={(e) => setConstructionIdSearched(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -42,6 +45,7 @@ const ConstructionListToolbar = ({ loadConstructions, selectedConstruction, setS
           <Button
             variant="contained"
             sx={{ height: 40, alignSelf: 'center', marginRight: 2 }}
+            onClick={searchConstruction}
           >
             Buscar
           </Button>

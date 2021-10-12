@@ -10,6 +10,7 @@ const NavItem = ({
   href,
   icon: Icon,
   title,
+  disabled,
   ...rest
 }) => {
   const location = useLocation();
@@ -30,6 +31,7 @@ const NavItem = ({
     >
       <Button
         component={RouterLink}
+        disabled={disabled}
         sx={{
           color: 'text.secondary',
           fontWeight: 'medium',

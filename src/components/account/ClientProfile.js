@@ -12,22 +12,22 @@ import {
   Typography
 } from '@material-ui/core';
 
-const user = {
-  userType: 'Cliente',
-  cuil: '54-35665123-7',
-  businessName: 'San Martin Pinturerias',
-  email: 'smpinturerias@gmail.com',
-  maxCurrentAccount: 20.000,
-  currentBalance: 13.000,
-  onlineEnabled: true
-};
+// const user = {
+//   userType: 'Cliente',
+//   cuil: '54-35665123-7',
+//   businessName: 'San Martin Pinturerias',
+//   email: 'smpinturerias@gmail.com',
+//   maxCurrentAccount: 20.000,
+//   currentBalance: 13.000,
+//   onlineEnabled: true
+// };
 
-const ClientProfile = (props) => {
+const ClientProfile = ({ user, ...props }) => {
   const [values, setValues] = useState({
-    cuil: user.cuil,
+    cuil: user.cuit,
     businessName: user.businessName,
     maxCurrentAccount: user.maxCurrentAccount,
-    email: user.email,
+    email: user.user.user,
     currentBalance: user.currentBalance,
     onlineEnabled: user.onlineEnabled
   });
@@ -43,7 +43,7 @@ const ClientProfile = (props) => {
     <Card {...props} sx={{ padding: 3 }}>
       <CardHeader
         title={user.businessName}
-        subheader={user.userType}
+        subheader={user.user.userType.type}
         titleTypographyProps={{ variant: 'h2' }}
         subheaderTypographyProps={{ variant: 'h4' }}
         sx={{ textAlign: 'center', backgroundColor: 'secondary' }}

@@ -16,13 +16,41 @@ import {
   FormControl,
   FormLabel
 } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/users/actions';
+import { Clients, Employees } from '../services';
+
+const USER_TYPE_CLIENT = 'client';
+const USER_TYPE_EMPLOYEE = 'employee';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [value, setValue] = React.useState('employee');
+  const [userType, setUserType] = React.useState(USER_TYPE_EMPLOYEE);
+
+  const dispatch = useDispatch();
 
   const handleRadioChange = (event) => {
-    setValue(event.target.value);
+    setUserType(event.target.value);
+  };
+
+  const loginUser = (email, password) => {
+    if (userType === USER_TYPE_CLIENT) {
+      Clients.getClients().then((response) => {
+        const client = response.data?.find((c) => c.user.user === email);
+        if (client) {
+          dispatch(setUser(client));
+          navigate('/app/account', { replace: true });
+        }
+      }).catch((error) => console.log(error));
+    } else {
+      Employees.getEmployees().then((response) => {
+        const employee = response.data?.find((e) => e.user.user === email);
+        if (employee) {
+          dispatch(setUser(employee));
+          navigate('/app/account', { replace: true });
+        }
+      }).catch((error) => console.log(error));
+    }
   };
 
   return (
@@ -49,8 +77,8 @@ const Login = () => {
               email: Yup.string().email('Debe ingresar un email valido').max(255).required('Campo requerido'),
               password: Yup.string().max(255).required('Campo requerido')
             })}
-            onSubmit={() => {
-              navigate('/app/account', { replace: true });
+            onSubmit={(values) => {
+              loginUser(values.email, values.password);
             }}
           >
             {({
@@ -62,7 +90,11 @@ const Login = () => {
               touched,
               values
             }) => (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={(event) => {
+                event.preventDefault();
+                handleSubmit(values);
+              }}
+              >
                 <Box sx={{ mb: 3 }}>
                   <Typography
                     color="textPrimary"
@@ -73,10 +105,10 @@ const Login = () => {
                 </Box>
                 <FormControl component="fieldset" sx={{ margin: 'auto', width: 'fit-content', display: 'block' }}>
                   <FormLabel component="legend" sx={{ margin: 'auto' }}>¿Con qué tipo de usuario desea ingresar?</FormLabel>
-                  <RadioGroup aria-label="userType" name="userType" value={value} onChange={handleRadioChange} sx={{ display: 'flex', flexDirection: 'row' }}>
+                  <RadioGroup aria-label="userType" name="userType" value={userType} onChange={handleRadioChange} sx={{ display: 'flex', flexDirection: 'row' }}>
                     <Box sx={{ margin: 'auto', width: 'fit-content' }}>
-                      <FormControlLabel value="employee" control={<Radio />} label="Empleado" />
-                      <FormControlLabel value="client" control={<Radio />} label="Cliente" sx={{ margin: 0 }} />
+                      <FormControlLabel value={USER_TYPE_EMPLOYEE} control={<Radio />} label="Empleado" />
+                      <FormControlLabel value={USER_TYPE_CLIENT} control={<Radio />} label="Cliente" sx={{ margin: 0 }} />
                     </Box>
                   </RadioGroup>
                 </FormControl>

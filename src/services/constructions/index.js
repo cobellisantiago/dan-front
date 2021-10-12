@@ -14,6 +14,14 @@ export async function getConstructions() {
   }
 }
 
+export async function getConstructionById(id) {
+  try {
+    return await getRequest(Servers.USERS_URL, `${Endpoints.constructions}/${id}`);
+  } catch (error) {
+    throw error.response;
+  }
+}
+
 export async function createConstruction(body) {
   try {
     return await postRequest(Servers.USERS_URL, Endpoints.constructions, body);
