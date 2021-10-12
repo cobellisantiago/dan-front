@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
-  Box, Button, Checkbox, CircularProgress, Grid, InputLabel, Link, MenuItem, Select,
-  TextField, Typography
+ Box, Button, Checkbox, TextField, Typography
 } from '@material-ui/core';
 
-const ClientRegister = ({ client, setClient, enabledButton }) => (
+const ClientRegister = ({ setClient, disabledButton }) => (
   <Formik
     initialValues={{
       cuil: '',
@@ -180,7 +179,7 @@ const ClientRegister = ({ client, setClient, enabledButton }) => (
             <Button
               sx={{ maxWidth: 500, display: 'block', margin: 'auto' }}
               color="primary"
-              disabled={isSubmitting && !enabledButton}
+              disabled={isSubmitting || disabledButton}
               fullWidth
               size="large"
               type="submit"

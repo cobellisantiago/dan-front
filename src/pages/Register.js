@@ -6,16 +6,16 @@ import {
   Container, FormControl, FormControlLabel, FormLabel, Button
 } from '@material-ui/core';
 import '../App.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
-  addingClient,
   addingClientError,
   addClient
 } from '../store/clients/actions';
-import { Clients } from '../services';
+import { Employees, Clients } from '../services';
 import Modal from '../components/Modal';
 import RegisterForm from '../components/register/RegisterForm';
+import ErrorDialog from '../components/ErrorDialog';
 
 const useStyles = makeStyles({
   container: {
@@ -27,42 +27,64 @@ const useStyles = makeStyles({
 });
 
 const Register = () => {
-  // eslint-disable-next-line no-shadow
-  const { client, addClientInProgress, errorAddingClient } = useSelector((state) => ({
-    client: state.clients.client,
-    addClientInProgress: state.clients.addingClient,
-    errorAddingClient: state.clients.errorAddingClient
-  }));
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const classes = useStyles();
-  const [value, setValue] = React.useState('employee');
-  const [clientValue, setClient] = useState({});
+  const [userType, setUserType] = React.useState('employee');
+  const [client, setClient] = useState(null);
+  const [employee, setEmployee] = useState(null);
+  const [registerInProgress, setRegisterInProgress] = useState(false);
   const [showClientRegistered, setShowClientRegistered] = useState(false);
+  const [showEmployeeRegistered, setShowEmployeeRegistered] = useState(false);
+  const [errorRegistering, setErrorRegistering] = useState(null);
 
   useEffect(() => {
-    if (clientValue) {
-      addNewClient(clientValue);
+    if (client) {
+      addNewClient(client);
     }
-  }, [clientValue]);
+  }, [client]);
+
+  useEffect(() => {
+    if (employee) {
+      addNewEmployee(employee);
+    }
+  }, [employee]);
 
   const handleRadioChange = (event) => {
-    setValue(event.target.value);
+    setUserType(event.target.value);
   };
 
   const handleLogin = () => {
+    setShowEmployeeRegistered(false);
+    setShowClientRegistered(false);
     navigate('/login', { replace: true });
   };
 
   const addNewClient = () => {
-    dispatch(addingClient());
-    Clients.addClient(clientValue).then((data) => {
-      dispatch(addClient(data.body));
-      setShowClientRegistered(true);
+    setRegisterInProgress(true);
+      Clients.addClient(client).then((data) => {
+        dispatch(addClient(data.body));
+        setShowClientRegistered(true);
+        setRegisterInProgress(false);
+        setErrorRegistering(null);
+      }).catch((err) => {
+        setRegisterInProgress(false);
+        setErrorRegistering(err && err.data
+        && err.data.message ? err.data.message : 'Error Adding Client');
+      });
+  };
+
+  const addNewEmployee = () => {
+    setRegisterInProgress(true);
+    Employees.addEmployee(employee).then((data) => {
+      setShowEmployeeRegistered(true);
+      setRegisterInProgress(false);
+      setErrorRegistering(null);
     }).catch((err) => {
-      dispatch(addingClientError(err && err.data
-      && err.data.message ? err.data.message : 'Error Adding Client'));
+      setRegisterInProgress(false);
+      setErrorRegistering(err && err.data
+      && err.data.message ? err.data.message : 'Error Adding Client');
     });
   };
 
@@ -94,7 +116,7 @@ const Register = () => {
             <RadioGroup
               aria-label="userType"
               name="userType"
-              value={value}
+              value={userType}
               onChange={handleRadioChange}
               sx={{ display: 'flex', flexDirection: 'row' }}
             >
@@ -104,7 +126,12 @@ const Register = () => {
               </Box>
             </RadioGroup>
           </FormControl>
-          <RegisterForm checkBoxValue={value} client={client} setClient={(c) => setClient(c)} enableButton={!addClientInProgress} />
+          <RegisterForm
+            checkBoxValue={userType}
+            setClient={(c) => setClient(c)}
+            setEmployee={(e) => setEmployee(e)}
+            disabledButton={registerInProgress}
+          />
           <Typography
             color="textSecondary"
             variant="body1"
@@ -121,9 +148,9 @@ const Register = () => {
             </Link>
           </Typography>
         </Container>
-        {(showClientRegistered) && (
+        {(showClientRegistered || showEmployeeRegistered) && (
           <Modal
-            title="Cliente creado con exito"
+            title={showClientRegistered ? 'Cliente registrado exitosamente' : 'Empleado registrado exitosamente'}
             open
             containerClass={classes.container}
           >
@@ -133,7 +160,7 @@ const Register = () => {
                 variant="body1"
                 sx={{ textAlign: 'center', marginBottom: 3 }}
               >
-                Debe iniciar sesion con el nuevo usuario para ingresar al sistema.
+                Ya puedes ingresar con tu usuario.
               </Typography>
               <Button
                 sx={{
@@ -150,6 +177,18 @@ const Register = () => {
               </Button>
             </Box>
           </Modal>
+        )}
+        {!!errorRegistering && (
+          <ErrorDialog
+            title={`Error al registrando un ${userType}`}
+            message={errorRegistering}
+            handleClose={() => {
+              setErrorRegistering(null);
+              setEmployee(null);
+              setClient(null);
+              setRegisterInProgress(false);
+            }}
+          />
         )}
       </Box>
     </>

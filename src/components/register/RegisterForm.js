@@ -3,12 +3,12 @@ import EmployeeRegister from './EmployeeRegister';
 import ClientRegister from './ClientRegister';
 
 const RegisterForm = ({
- checkBoxValue, client, setClient, employee, enableButton
+ checkBoxValue, setClient, setEmployee, disabledButton
 }) => {
   if (checkBoxValue === 'employee') {
-    return <EmployeeRegister employee />;
+    return <EmployeeRegister setEmployee={(e) => setEmployee(e)} disabledButton={disabledButton} />;
   }
-  return <ClientRegister client setClient={(c) => setClient(c)} enabledButton />;
+  return <ClientRegister setClient={(c) => setClient(c)} disabledButton={disabledButton} />;
 };
 
 RegisterForm.propTypes = {
