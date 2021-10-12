@@ -56,10 +56,10 @@ const OrdersTable = ({ orders, shipmentOrders, setShipmentOrders }) => {
                   {o.id}
                 </TableCell>
                 <TableCell>
-                  {o.constructionId}
+                  {`${o.construction.description} - ${o.construction.client.businessName}`}
                 </TableCell>
                 <TableCell>
-                  {o.details.map((od) => `${od.productId} x${od.quantity} \t`)}
+                  {o.details.map((od) => `${od.quantity}X ${od.product.name} \t`)}
                 </TableCell>
                 <TableCell sx={{ maxWidth: 3 }}>
                   <Button>
