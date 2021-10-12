@@ -21,7 +21,7 @@ import { Orders, Shipments } from '../../services';
 
 const useStyles = makeStyles({
   container: {
-    maxHeight: '550px',
+    maxHeight: '600px',
     maxWidth: '900px'
   }
 });
@@ -52,9 +52,18 @@ const AddShipment = ({
   const submit = (values, actions) => {
     const shipmentOrdersDTO = [];
     shipmentOrders.forEach((order) => {
+      const orderDetailsDTO = [];
+      order.details.forEach((orderDetail) => {
+        const newOrderDetail = {
+          product: { id: orderDetail.product.id },
+          quantity: orderDetail.quantity,
+          price: orderDetail.price
+        };
+        orderDetailsDTO.push(newOrderDetail);
+      });
       const newOrder = {
         id: order.id,
-        details: order.details
+        details: orderDetailsDTO
       };
       shipmentOrdersDTO.push(newOrder);
     });
@@ -62,12 +71,12 @@ const AddShipment = ({
     const data = {
       cost: values.cost,
       destinationAddress: values.destinationAddress,
-      date: '2021-01-08T23:03:21Z',
+      date: new Date(values.date),
       orders: shipmentOrdersDTO
     };
 
     const request = selectedShipment ? Shipments.editShipment(selectedShipment.id, data) : Shipments.createShipment(data);
-    console.log(data);
+
     request
       .then(() => {
         setSelectedShipment(null);
@@ -128,7 +137,6 @@ const AddShipment = ({
                       helperText={touched.date && errors.date}
                       name="date"
                       type="date"
-                      format="dd/MM/yyyy"
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.date}
