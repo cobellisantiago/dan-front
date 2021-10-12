@@ -79,7 +79,7 @@ loadConstructions, setShowAddNewConstruction, selectedConstruction, setSelectedC
 
   return (
     <Modal
-      title="Crear Construccion"
+      title={`${selectedConstruction?.id ? 'EDITAR' : 'CREAR'} CONSTRUCCION`}
       open
       onClose={handleClose}
       containerClass={classes.container}
@@ -143,6 +143,7 @@ loadConstructions, setShowAddNewConstruction, selectedConstruction, setSelectedC
                   item
                   md={6}
                   xs={12}
+                  sx={{ marginTop: 2.8 }}
                 >
                   <TextField
                     fullWidth

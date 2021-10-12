@@ -96,7 +96,7 @@ const NewShipment = ({
 
   return (
     <Modal
-      title="Envios"
+      title={`${selectedShipment?.id ? 'EDITAR' : 'CREAR'} ENVIO`}
       open
       onClose={handleClose}
       containerClass={classes.container}
@@ -116,8 +116,8 @@ const NewShipment = ({
           <CardContent>
             <Formik
               initialValues={{
-                destinationAddress: '',
-                price: '',
+                destinationAddress: selectedShipment?.destinationAddress || '',
+                price: selectedShipment?.cost || '',
                 date: ''
               }}
               validationSchema={Yup.object().shape({

@@ -12,7 +12,7 @@ const Account = () => {
     user: state.users.user
   }));
 
-  const { userType } = user.user;
+  const userType = user?.user?.userType;
 
   return (
     <>
@@ -27,7 +27,7 @@ const Account = () => {
         }}
       >
         <Container maxWidth="lg">
-          { userType.type === 'Cliente'
+          { userType?.type === 'Cliente'
             ? <ClientProfile user={user} />
             : <EmployeeProfile user={user} />}
         </Container>

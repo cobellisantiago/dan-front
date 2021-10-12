@@ -54,7 +54,7 @@ const AddMaterial = ({
 
   return (
     <Modal
-      title="Crear Material"
+      title={`${selectedProduct?.id ? 'EDITAR' : 'CREAR'} PRODUCTO`}
       open
       onClose={handleClose}
       containerClass={classes.container}

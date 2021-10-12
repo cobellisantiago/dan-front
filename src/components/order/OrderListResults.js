@@ -33,10 +33,7 @@ const OrderListResults = ({ orders, setSelectedOrder }) => (
                 FECHA DE ENVIO
               </TableCell>
               <TableCell>
-                ESTADO
-              </TableCell>
-              <TableCell>
-                ACCION
+                PRODUCTOS
               </TableCell>
             </TableRow>
           </TableHead>
@@ -62,30 +59,13 @@ const OrderListResults = ({ orders, setSelectedOrder }) => (
                   </Box>
                 </TableCell>
                 <TableCell>
-                  {order.construction?.id}
+                  {order.construction?.description}
                 </TableCell>
                 <TableCell>
                   {moment(order.orderDate).format('DD/MM/YYYY')}
                 </TableCell>
                 <TableCell>
-                  {order.state}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => setSelectedOrder(order)}
-                  >
-                    Editar
-                  </Button>
-                  <Button>
-                    <SvgIcon
-                      fontSize="small"
-                      color="action"
-                    >
-                      <DeleteIcon />
-                    </SvgIcon>
-                  </Button>
+                  {(order.details || []).map((detail) => detail.product?.name).join(', ')}
                 </TableCell>
               </TableRow>
               ))}
