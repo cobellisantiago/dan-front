@@ -8,7 +8,7 @@ import { Shipments } from '../../services';
 
 const ShipmentList = () => {
   const [shipments, setShipments] = useState([]);
-  const [selectedShipments, setSelectedShipments] = useState(null);
+  const [selectedShipment, setSelectedShipment] = useState(null);
 
   const loadShipments = () => {
     Shipments.getShipments().then((data) => setShipments(data.data || []))
@@ -18,6 +18,7 @@ const ShipmentList = () => {
   useEffect(() => {
     loadShipments();
   }, []);
+
   return (
     <>
       <Helmet>
@@ -33,11 +34,14 @@ const ShipmentList = () => {
         <Container maxWidth={false}>
           <ShipmentListToolbar
             loadShipments={loadShipments}
-            selectedShipment={selectedShipments}
-            setSelectedShipment={setSelectedShipments}
+            selectedShipment={selectedShipment}
+            setSelectedShipment={setSelectedShipment}
           />
           <Box sx={{ pt: 3 }}>
-            <ShipmentListResults shipments={shipments} />
+            <ShipmentListResults
+              shipments={shipments}
+              setSelectedShipment={setSelectedShipment}
+            />
           </Box>
         </Container>
       </Box>

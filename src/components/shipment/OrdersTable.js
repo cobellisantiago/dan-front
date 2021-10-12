@@ -12,9 +12,7 @@ import React, { useState } from 'react';
 import { Trash as DeleteIcon, Plus as AddIcon } from 'react-feather';
 import '../../index.css';
 
-const OrdersTable = ({ orders }) => {
-  const [shipmentOrders, setShipmentOrders] = useState([]);
-
+const OrdersTable = ({ orders, shipmentOrders, setShipmentOrders }) => {
   const deleteOrderClick = (o) => {
     const filteredOrders = shipmentOrders.filter((i) => i.id !== o.id);
     setShipmentOrders(filteredOrders);
@@ -30,7 +28,7 @@ const OrdersTable = ({ orders }) => {
 
   return (
     <Card sx={{ marginY: 3 }}>
-      <Box sx={{ minWidth: 942, maxHeight: 210, overflowY: 'auto' }}>
+      <Box sx={{ maxHeight: 210, overflowY: 'auto' }}>
         <Table stickyHeader>
           <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
             <TableRow>
@@ -58,10 +56,10 @@ const OrdersTable = ({ orders }) => {
                   {o.id}
                 </TableCell>
                 <TableCell>
-                  {o.construction}
+                  {o.constructionId}
                 </TableCell>
                 <TableCell>
-                  {o.orderDetails.map((od) => `${od.product} x${od.quantity} \t`)}
+                  {o.details.map((od) => `${od.productId} x${od.quantity} \t`)}
                 </TableCell>
                 <TableCell sx={{ maxWidth: 3 }}>
                   <Button>

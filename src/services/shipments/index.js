@@ -1,5 +1,5 @@
 import {
-  getRequest, Servers, postRequest,
+  getRequest, Servers, postRequest, putRequest,
 } from '../common/api';
 
 const Endpoints = {
@@ -17,6 +17,14 @@ export async function getShipments() {
 export async function createShipment(body) {
   try {
     return await postRequest(Servers.SHIPMENTS_URL, Endpoints.shipments, body);
+  } catch (error) {
+    throw error.response;
+  }
+}
+
+export async function editShipment(id, body) {
+  try {
+    return await putRequest(Servers.SHIPMENTS_URL, `${Endpoints.shipments}/${id}`, body);
   } catch (error) {
     throw error.response;
   }

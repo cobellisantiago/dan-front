@@ -17,13 +17,9 @@ import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-const ShipmentListResults = ({ shipments, ...rest }) => {
+const ShipmentListResults = ({ shipments, setSelectedShipment, ...rest }) => {
   const navigate = useNavigate();
   // const [shipments, setShipments] = useState(customers);
-
-  const handleClick = () => {
-    navigate('/app/shipment/edit', { replace: true });
-  };
 
   // const handleDeleteClick = (shipment) => {
   //   const filtered = shipments.filter((i) => i.id !== shipment.id);
@@ -88,7 +84,7 @@ const ShipmentListResults = ({ shipments, ...rest }) => {
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={handleClick}
+                      onClick={() => setSelectedShipment(shipment)}
                     >
                       Editar
                     </Button>

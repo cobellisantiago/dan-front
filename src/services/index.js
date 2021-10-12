@@ -4,12 +4,14 @@ import * as Products from './products';
 import * as Employees from './employees';
 import * as Payments from './payments';
 import * as Shipments from './shipments';
+import * as Orders from './orders';
 
 export {
- Constructions,
+  Constructions,
   Clients,
   Products,
   Payments,
   Employees,
-  Shipments
+  Shipments,
+  Orders
 };

@@ -3,7 +3,7 @@ import {
   Button,
   Card,
   CardContent,
-  CardHeader,
+  CardHeader, CircularProgress,
   Divider,
   Grid,
   InputLabel,
@@ -12,100 +12,37 @@ import {
 } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import OrdersTable from '../../components/shipment/OrdersTable';
 import ErrorDialog from '../../components/ErrorDialog';
 import Modal from '../../components/Modal';
-
-const orders = [
-  {
-    id: 1,
-    construction: 'Edificio - Padre Genesio 458',
-    orderDetails: [
-      {
-        product: 'Ladrillos',
-        quantity: '20'
-      },
-      {
-        product: 'Cemento',
-        quantity: '40'
-      }
-    ]
-  },
-  {
-    id: 2,
-    construction: 'Vial - San Martin 2458',
-    orderDetails: [
-      {
-        product: 'Cemento',
-        quantity: '100'
-      }
-    ]
-  },
-  {
-    id: 3,
-    construction: 'Edificio - Padre Genesio 458',
-    orderDetails: [
-      {
-        product: 'Ladrillos',
-        quantity: '20'
-      },
-      {
-        product: 'Cemento',
-        quantity: '40'
-      }
-    ]
-  },
-  {
-    id: 4,
-    construction: 'Vial - San Martin 2458',
-    orderDetails: [
-      {
-        product: 'Cemento',
-        quantity: '100'
-      }
-    ]
-  },
-  {
-    id: 5,
-    construction: 'Edificio - Padre Genesio 458',
-    orderDetails: [
-      {
-        product: 'Ladrillos',
-        quantity: '20'
-      },
-      {
-        product: 'Cemento',
-        quantity: '40'
-      }
-    ]
-  },
-  {
-    id: 6,
-    construction: 'Vial - San Martin 2458',
-    orderDetails: [
-      {
-        product: 'Cemento',
-        quantity: '100'
-      }
-    ]
-  }
-];
+import { Orders, Shipments } from '../../services';
 
 const useStyles = makeStyles({
   container: {
-    maxHeight: '650px',
-    maxWidth: '1000px'
+    maxHeight: '550px',
+    maxWidth: '900px'
   }
 });
 
 const AddShipment = ({
- loadShipments, selectedShipment, setSelectedShipment, setShowAddNewShipment
+ loadShipments, setShowAddNewShipment, selectedShipment, setSelectedShipment
 }) => {
   const classes = useStyles();
   const [isSaving, setIsSaving] = useState(false);
   const [errorCreatingShipment, setErrorCreatingShipment] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [shipmentOrders, setShipmentOrders] = useState([]);
+
+  const loadOrders = () => {
+    Orders.getOrders().then((data) => setOrders(data.data || []))
+      .catch((err) => {});
+  };
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
 
   const handleClose = () => {
     setShowAddNewShipment(false);
@@ -113,33 +50,35 @@ const AddShipment = ({
   };
 
   const submit = (values, actions) => {
-    // TODO clientId must be the client logged in
-    // for now it is hardcoded with clientId: 1
-    // const data = {
-    //   constructionTypeId: values.constructionTypeId,
-    //   address: values.address,
-    //   description: values.description,
-    //   latitude: values.latitude,
-    //   longitude: values.longitude,
-    //   area: values.area,
-    //   clientId: 1
-    // };
-    //
-    // const request = selectedConstruction
-    //   ? Constructions.editConstruction(selectedConstruction.id, data)
-    //   : Constructions.createConstruction(data);
-    //
-    // request
-    //   .then(() => {
-    //     setSelectedConstruction(null);
-    //     setShowAddNewConstruction(false);
-    //     loadConstructions();
-    //   })
-    //   .catch((err) => setErrorCreatingConstruction(err?.error || 'Unexpected Error'))
-    //   .finally(() => {
-    //     setIsSaving(false);
-    //     actions.setSubmitting(false);
-    //   });
+    const shipmentOrdersDTO = [];
+    shipmentOrders.forEach((order) => {
+      const newOrder = {
+        id: order.id,
+        details: order.details
+      };
+      shipmentOrdersDTO.push(newOrder);
+    });
+
+    const data = {
+      cost: values.cost,
+      destinationAddress: values.destinationAddress,
+      date: '2021-01-08T23:03:21Z',
+      orders: shipmentOrdersDTO
+    };
+
+    const request = selectedShipment ? Shipments.editShipment(selectedShipment.id, data) : Shipments.createShipment(data);
+    console.log(data);
+    request
+      .then(() => {
+        setSelectedShipment(null);
+        setShowAddNewShipment(false);
+        loadShipments();
+      })
+      .catch((err) => setErrorCreatingShipment(err?.error || 'Unexpected Error'))
+      .finally(() => {
+        setIsSaving(false);
+        actions.setSubmitting(false);
+      });
   };
 
   return (
@@ -153,12 +92,12 @@ const AddShipment = ({
         <Formik
           initialValues={{
             destinationAddress: '',
-            price: '',
+            cost: '',
             date: ''
           }}
           validationSchema={Yup.object().shape({
             destinationAddress: Yup.string().required('Campo requerido'),
-            price: Yup.number().required('Campo requerido'),
+            cost: Yup.number().required('Campo requerido'),
             date: Yup.date().required('Campo requerido'),
           })}
           onSubmit={(values, actions) => submit(values, actions)}
@@ -222,14 +161,14 @@ const AddShipment = ({
                   >
                     <TextField
                       fullWidth
-                      error={Boolean(touched.price && errors.price)}
-                      helperText={touched.price && errors.price}
+                      error={Boolean(touched.cost && errors.cost)}
+                      helperText={touched.cost && errors.cost}
                       label="Costo"
-                      name="price"
+                      name="cost"
                       type="number"
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      value={values.price}
+                      value={values.cost}
                       variant="outlined"
                     />
                   </Grid>
@@ -241,7 +180,7 @@ const AddShipment = ({
                 >
                   Pedidos
                 </Typography>
-                <OrdersTable orders={orders} />
+                <OrdersTable orders={orders} shipmentOrders={shipmentOrders} setShipmentOrders={setShipmentOrders} />
                 <Box
                   sx={{
                   display: 'flex',
@@ -264,6 +203,7 @@ const AddShipment = ({
                     disabled={isSubmitting}
                     type="submit"
                     size="medium"
+                    startIcon={isSaving && <CircularProgress size={12} color="secondary" />}
                   >
                     Guardar
                   </Button>
@@ -278,7 +218,7 @@ const AddShipment = ({
         message={errorCreatingShipment}
         handleClose={() => setErrorCreatingShipment(null)}
       />
-)}
+      )}
     </Modal>
 );
 };
