@@ -15,95 +15,86 @@ import {
   Typography
 } from '@material-ui/core';
 import { Trash as DeleteIcon } from 'react-feather';
-import { useNavigate } from 'react-router-dom';
 
-const OrderListResults = ({ orders }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/app/material/edit', { replace: true });
-  };
-
-  return (
-    <Card>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
-              <TableRow>
+const OrderListResults = ({ orders, setSelectedOrder }) => (
+  <Card>
+    <PerfectScrollbar>
+      <Box sx={{ minWidth: 1050 }}>
+        <Table>
+          <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
+            <TableRow>
+              <TableCell>
+                ID
+              </TableCell>
+              <TableCell>
+                CONSTRUCCION
+              </TableCell>
+              <TableCell>
+                FECHA DE ENVIO
+              </TableCell>
+              <TableCell>
+                ESTADO
+              </TableCell>
+              <TableCell>
+                ACCION
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow
+                hover
+                key={order.id}
+              >
                 <TableCell>
-                  ID
+                  <Box
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex'
+                    }}
+                  >
+                    <Typography
+                      color="textPrimary"
+                      variant="body1"
+                    >
+                      {order.id}
+                    </Typography>
+                  </Box>
                 </TableCell>
                 <TableCell>
-                  CONSTRUCCION
+                  {order.construction?.id}
                 </TableCell>
                 <TableCell>
-                  FECHA DE ENVIO
+                  {moment(order.orderDate).format('DD/MM/YYYY')}
                 </TableCell>
                 <TableCell>
-                  ESTADO
+                  {order.state}
                 </TableCell>
                 <TableCell>
-                  ACCION
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => setSelectedOrder(order)}
+                  >
+                    Editar
+                  </Button>
+                  <Button>
+                    <SvgIcon
+                      fontSize="small"
+                      color="action"
+                    >
+                      <DeleteIcon />
+                    </SvgIcon>
+                  </Button>
                 </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {orders.map((order) => (
-                <TableRow
-                  hover
-                  key={order.id}
-                >
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {order.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    {order.email}
-                  </TableCell>
-                  <TableCell>
-                    {moment(order.createdAt).format('DD/MM/YYYY')}
-                  </TableCell>
-                  <TableCell>
-                    {order.address.country}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      color="secondary"
-                      variant="contained"
-                      onClick={handleClick}
-                    >
-                      Editar
-                    </Button>
-                    <Button>
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
-                        <DeleteIcon />
-                      </SvgIcon>
-                    </Button>
-                  </TableCell>
-                </TableRow>
               ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-    </Card>
+          </TableBody>
+        </Table>
+      </Box>
+    </PerfectScrollbar>
+  </Card>
   );
-};
 
 OrderListResults.propTypes = {
   orders: PropTypes.array.isRequired

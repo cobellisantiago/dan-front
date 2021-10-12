@@ -65,7 +65,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
    user: state.users.user,
   }));
 
-  const { userType } = user.user;
+  const userType = user?.user?.userType;
 
   useEffect(() => {
     if (openMobile && onMobileClose) {

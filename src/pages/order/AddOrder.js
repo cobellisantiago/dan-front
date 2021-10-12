@@ -8,43 +8,40 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ErrorDialog from 'src/components/ErrorDialog';
 import OrderDetailsTable from 'src/components/order/OrderDetailsTable';
-import {
- Orders, Clients, Products, Constructions
-} from '../../services';
+import moment from 'moment';
+import { Orders, Products, Constructions } from '../../services';
 
 const useStyles = makeStyles({
   container: {
-    maxHeight: '600px',
-    maxWidth: '700px'
+    maxHeight: '800px',
+    maxWidth: '1100px'
   }
 });
 
 const AddOrder = ({
  setShowAddNewOrder, setSelectedOrder, selectedOrder, loadOrders
 }) => {
+  console.log(selectedOrder);
   const classes = useStyles();
   const [isSaving, setIsSaving] = useState(false);
   const [errorCreatingOrder, setErrorCreatingOrder] = useState(null);
 
-  const [productName, setProductName] = useState();
+  const [selectedProduct, setSelectedProduct] = useState();
   const [orderDetails, setOrderDetails] = useState([]);
 
   const [products, setProducts] = useState([]);
   const [constructions, setConstructions] = useState([]);
-  const [clients, setClients] = useState([]);
 
   useEffect(() => {
     Products.getProducts().then((data) => setProducts(data.data || []))
-    .catch((err) => {});
+    .catch(() => {});
 
     Constructions.getConstructions().then((data) => setConstructions(data.data || []))
-    .catch((err) => {});
-
-    // TODO getClients
+    .catch(() => {});
   }, []);
 
   const handleSelectClick = (e) => {
-    setProductName(e.target.value);
+    setSelectedProduct(+e.target.value);
   };
 
   const handleClose = () => {
@@ -53,8 +50,13 @@ const AddOrder = ({
   };
 
   const submit = (values, actions) => {
-    // TODO formar la data a enviar
-    const data = {};
+    const data = {
+      orderDate: moment(values.shippingDate),
+      construction: {
+        id: values.construction
+      },
+      details: orderDetails.map((detail) => ({ ...detail, product: { id: detail.product } }))
+    };
 
     const request = selectedOrder ? Orders.editOrder(selectedOrder.id, data) : Orders.createOrder(data);
 
@@ -72,14 +74,12 @@ const AddOrder = ({
   };
 
   const handleAddClick = () => {
-    const product = productName;
     const quantity = document.getElementById('product-quantity').value;
     const price = document.getElementById('product-price').value;
-    if (product !== undefined && quantity !== '' && price !== '') {
-      const newOrderDetail = { // Crear producto en bdd
-        id: orderDetails.length,
-        product,
-        quantity,
+    if (selectedProduct !== undefined && quantity !== '' && price !== '') {
+      const newOrderDetail = {
+        product: selectedProduct,
+        quantity: +quantity,
         price
       };
       setOrderDetails([
@@ -98,12 +98,12 @@ const AddOrder = ({
       <Box pl={5} pr={6.5} pb={4} pt={2} height="100%">
         <Formik
           initialValues={{
-            client: '',
-            construction: ''
+            construction: '',
+            shippingDate: ''
           }}
           validationSchema={Yup.object().shape({
-            client: Yup.string().required('Campo requerido'),
-            construction: Yup.string().required('Campo requerido')
+            construction: Yup.string().required('Campo requerido'),
+            shippingDate: Yup.date().required('Campo requerido')
           })}
           onSubmit={(values, actions) => submit(values, actions)}
         >
@@ -121,25 +121,6 @@ const AddOrder = ({
                 container
                 spacing={3}
               >
-                <Grid
-                  item
-                  md={4}
-                  xs={12}
-                >
-                  <InputLabel id="demo-simple-select-outlined-label">Cliente asociado</InputLabel>
-                  <Select
-                    error={Boolean(touched.client && errors.client)}
-                    helperText={touched.client && errors.client}
-                    labelId="demo-simple-select-outlined-label"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    fullWidth
-                    name="client"
-                    value={values.client}
-                  >
-                    {clients.map((c) => <MenuItem value={c.id}>{c.name}</MenuItem>)}
-                  </Select>
-                </Grid>
                 <Grid
                   item
                   md={4}
@@ -179,6 +160,8 @@ const AddOrder = ({
                     onChange={handleChange}
                     value={values.shippingDate}
                     variant="outlined"
+                    error={Boolean(touched.shippingDate && errors.shippingDate)}
+                    helperText={touched.shippingDate && errors.shippingDate}
                   />
                 </Grid>
               </Grid>
@@ -208,7 +191,7 @@ const AddOrder = ({
                     name="product"
                     value={values.product}
                   >
-                    {products.map((p) => <MenuItem id={p.id} value={p.name}>{p.name}</MenuItem>)}
+                    {products.map((p) => <MenuItem id={p.id} value={p.id}>{p.name}</MenuItem>)}
                   </Select>
                 </Grid>
                 <Grid

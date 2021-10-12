@@ -18,9 +18,6 @@ const OrderDetailsTable = ({ orderDetails }) => (
         <TableHead sx={{ background: 'gainsboro', fontWeight: 'bold' }}>
           <TableRow>
             <TableCell>
-              ID
-            </TableCell>
-            <TableCell>
               PRODUCTO
             </TableCell>
             <TableCell>
@@ -38,9 +35,6 @@ const OrderDetailsTable = ({ orderDetails }) => (
               hover
               key={od.id}
             >
-              <TableCell>
-                {od.id}
-              </TableCell>
               <TableCell>
                 {od.product}
               </TableCell>

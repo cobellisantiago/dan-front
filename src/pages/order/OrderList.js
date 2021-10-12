@@ -37,7 +37,7 @@ const OrderList = () => {
             setSelectedOrder={setSelectedOrder}
           />
           <Box sx={{ pt: 3 }}>
-            <OrderListResults orders={orders} />
+            <OrderListResults orders={orders} setSelectedOrder={setSelectedOrder} />
           </Box>
         </Container>
       </Box>

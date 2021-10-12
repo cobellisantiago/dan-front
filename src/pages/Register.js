@@ -70,8 +70,7 @@ const Register = () => {
         setErrorRegistering(null);
       }).catch((err) => {
         setRegisterInProgress(false);
-        setErrorRegistering(err && err.data
-        && err.data.message ? err.data.message : 'Error Adding Client');
+        setErrorRegistering(err?.data?.message || 'Error Adding Client');
       });
   };
 
@@ -83,8 +82,7 @@ const Register = () => {
       setErrorRegistering(null);
     }).catch((err) => {
       setRegisterInProgress(false);
-      setErrorRegistering(err && err.data
-      && err.data.message ? err.data.message : 'Error Adding Client');
+      setErrorRegistering(err?.data?.message || 'Error Adding Employee');
     });
   };
 
