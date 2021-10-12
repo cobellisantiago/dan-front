@@ -17,18 +17,14 @@ import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-const ShipmentListResults = ({ customers, ...rest }) => {
+const ShipmentListResults = ({ shipments, setSelectedShipment, ...rest }) => {
   const navigate = useNavigate();
-  const [shipments, setShipments] = useState(customers);
+  // const [shipments, setShipments] = useState(customers);
 
-  const handleClick = () => {
-    navigate('/app/shipment/edit', { replace: true });
-  };
-
-  const handleDeleteClick = (shipment) => {
-    const filtered = shipments.filter((i) => i.id !== shipment.id);
-    setShipments(filtered);
-  };
+  // const handleDeleteClick = (shipment) => {
+  //   const filtered = shipments.filter((i) => i.id !== shipment.id);
+  //   setShipments(filtered);
+  // };
 
   return (
     <Card {...rest}>
@@ -71,30 +67,28 @@ const ShipmentListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {shipment.name}
+                        {shipment.id}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {shipment.email}
+                    {shipment.destinationAddress}
                   </TableCell>
                   <TableCell>
-                    {moment(shipment.createdAt).format('DD/MM/YYYY')}
+                    {moment(shipment.date).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {shipment.address.country}
+                    {shipment.cost}
                   </TableCell>
                   <TableCell>
                     <Button
                       color="secondary"
                       variant="contained"
-                      onClick={handleClick}
+                      onClick={() => setSelectedShipment(shipment)}
                     >
                       Editar
                     </Button>
-                    <Button
-                      onClick={() => handleDeleteClick(shipment)}
-                    >
+                    <Button>
                       <SvgIcon
                         fontSize="small"
                         color="action"
