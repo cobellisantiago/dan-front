@@ -5,9 +5,9 @@ import {
 
 const EmployeeProfile = ({ user, ...props }) => {
   const [values, setValues] = useState({
-    firstName: user.name.split(/(\s+)/)[0],
-    lastName: user.name.split(/(\s+)/)[2],
-    email: user.mail,
+    firstName: user?.name?.split(/(\s+)/)[0] || '',
+    lastName: user?.name?.split(/(\s+)/)[2] || '',
+    email: user?.mail || '',
   });
 
   const handleChange = (event) => {

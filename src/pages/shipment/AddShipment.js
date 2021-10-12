@@ -1,9 +1,7 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
-  CardHeader, CircularProgress,
+  CircularProgress,
   Divider,
   Grid,
   InputLabel,
@@ -14,6 +12,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import moment from 'moment';
 import OrdersTable from '../../components/shipment/OrdersTable';
 import ErrorDialog from '../../components/ErrorDialog';
 import Modal from '../../components/Modal';
@@ -92,7 +91,7 @@ const AddShipment = ({
 
   return (
     <Modal
-      title="Agregar envio"
+      title={`${selectedShipment?.id ? 'EDITAR' : 'CREAR'} ENVIO`}
       open
       onClose={handleClose}
       containerClass={classes.container}
@@ -100,9 +99,9 @@ const AddShipment = ({
       <Box pl={5} pr={6.5} pb={4} pt={2} height="100%">
         <Formik
           initialValues={{
-            destinationAddress: '',
-            cost: '',
-            date: ''
+            destinationAddress: selectedShipment?.destinationAddress || '',
+            cost: selectedShipment?.cost || '',
+            date: selectedShipment?.date || ''
           }}
           validationSchema={Yup.object().shape({
             destinationAddress: Yup.string().required('Campo requerido'),
@@ -112,111 +111,111 @@ const AddShipment = ({
           onSubmit={(values, actions) => submit(values, actions)}
         >
           {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit}>
+            errors,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            touched,
+            values
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <Grid
+                container
+                spacing={3}
+              >
                 <Grid
-                  container
-                  spacing={3}
+                  item
+                  md={3}
+                  xs={12}
                 >
-                  <Grid
-                    item
-                    md={3}
-                    xs={12}
-                  >
-                    <InputLabel id="demo-simple-select-outlined-label">Fecha</InputLabel>
-                    <TextField
-                      fullWidth
-                      error={Boolean(touched.date && errors.date)}
-                      helperText={touched.date && errors.date}
-                      name="date"
-                      type="date"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.date}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    md={6}
-                    xs={12}
-                    sx={{ marginTop: 2.8 }}
-                  >
-                    <TextField
-                      fullWidth
-                      error={Boolean(touched.destinationAddress && errors.destinationAddress)}
-                      helperText={touched.destinationAddress && errors.destinationAddress}
-                      label="Direccion de destino"
-                      name="destinationAddress"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.destinationAddress}
-                      variant="outlined"
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    md={3}
-                    xs={12}
-                    sx={{ marginTop: 2.8 }}
-                  >
-                    <TextField
-                      fullWidth
-                      error={Boolean(touched.cost && errors.cost)}
-                      helperText={touched.cost && errors.cost}
-                      label="Costo"
-                      name="cost"
-                      type="number"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.cost}
-                      variant="outlined"
-                    />
-                  </Grid>
+                  <InputLabel id="demo-simple-select-outlined-label">Fecha</InputLabel>
+                  <TextField
+                    fullWidth
+                    error={Boolean(touched.date && errors.date)}
+                    helperText={touched.date && errors.date}
+                    name="date"
+                    type="date"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.date}
+                    variant="outlined"
+                  />
                 </Grid>
-                <Divider sx={{ marginY: 3 }} />
-                <Typography
-                  color="textPrimary"
-                  variant="h4"
+                <Grid
+                  item
+                  md={6}
+                  xs={12}
+                  sx={{ marginTop: 2.8 }}
                 >
-                  Pedidos
-                </Typography>
-                <OrdersTable orders={orders} shipmentOrders={shipmentOrders} setShipmentOrders={setShipmentOrders} />
-                <Box
-                  sx={{
+                  <TextField
+                    fullWidth
+                    error={Boolean(touched.destinationAddress && errors.destinationAddress)}
+                    helperText={touched.destinationAddress && errors.destinationAddress}
+                    label="Direccion de destino"
+                    name="destinationAddress"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.destinationAddress}
+                    variant="outlined"
+                  />
+                </Grid>
+                <Grid
+                  item
+                  md={3}
+                  xs={12}
+                  sx={{ marginTop: 2.8 }}
+                >
+                  <TextField
+                    fullWidth
+                    error={Boolean(touched.cost && errors.cost)}
+                    helperText={touched.cost && errors.cost}
+                    label="Costo"
+                    name="cost"
+                    type="number"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.cost}
+                    variant="outlined"
+                  />
+                </Grid>
+              </Grid>
+              <Divider sx={{ marginY: 3 }} />
+              <Typography
+                color="textPrimary"
+                variant="h4"
+              >
+                Pedidos
+              </Typography>
+              <OrdersTable orders={orders} shipmentOrders={shipmentOrders} setShipmentOrders={setShipmentOrders} />
+              <Box
+                sx={{
                   display: 'flex',
                   justifyContent: 'flex-end',
                   p: 2
                 }}
+              >
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  size="medium"
+                  sx={{ marginRight: 2 }}
+                  onClick={handleClose}
                 >
-                  <Button
-                    color="secondary"
-                    variant="contained"
-                    size="medium"
-                    sx={{ marginRight: 2 }}
-                    onClick={handleClose}
-                  >
-                    Cancelar
-                  </Button>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    disabled={isSubmitting}
-                    type="submit"
-                    size="medium"
-                    startIcon={isSaving && <CircularProgress size={12} color="secondary" />}
-                  >
-                    Guardar
-                  </Button>
-                </Box>
-              </form>
+                  Cancelar
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  disabled={isSubmitting}
+                  type="submit"
+                  size="medium"
+                  startIcon={isSaving && <CircularProgress size={12} color="secondary" />}
+                >
+                  Guardar
+                </Button>
+              </Box>
+            </form>
           )}
         </Formik>
       </Box>

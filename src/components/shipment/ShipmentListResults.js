@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Card,
-  SvgIcon,
   Table,
   TableBody,
   TableCell,
@@ -13,9 +12,7 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import { Trash as DeleteIcon } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 const ShipmentListResults = ({ shipments, setSelectedShipment, ...rest }) => {
   const navigate = useNavigate();
@@ -87,14 +84,6 @@ const ShipmentListResults = ({ shipments, setSelectedShipment, ...rest }) => {
                       onClick={() => setSelectedShipment(shipment)}
                     >
                       Editar
-                    </Button>
-                    <Button>
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
-                        <DeleteIcon />
-                      </SvgIcon>
                     </Button>
                   </TableCell>
                 </TableRow>
